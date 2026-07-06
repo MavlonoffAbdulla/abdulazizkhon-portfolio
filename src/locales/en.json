@@ -15,7 +15,30 @@
   },
   "about": {
     "title": "About me",
-    "text": "Freelance developer based in Uzbekistan, specializing in business process automation: ERP/CRM systems, Telegram bots, AI integration and custom software development. I work with retail, logistics, garment manufacturing and hospitality businesses."
+    "text": "Freelance developer based in Uzbekistan, specializing in business process automation: ERP/CRM systems, Telegram bots, AI integration and custom software development. I work with retail, logistics, garment manufacturing and hospitality businesses.",
+    "approach": "My approach: first, clear technical specification and architecture; then development with regular progress updates; and finally, delivery with post-launch support.",
+    "stats": {
+      "focus": {
+        "label": "Focus Area",
+        "value": "Automation",
+        "desc": "ERP/CRM & Bots"
+      },
+      "location": {
+        "label": "Location",
+        "value": "Uzbekistan",
+        "desc": "Tashkent / Remote"
+      },
+      "sectors": {
+        "label": "Industries",
+        "value": "B2B Focus",
+        "desc": "Retail, Logistics, HoReCa"
+      },
+      "model": {
+        "label": "Engagement",
+        "value": "Turnkey",
+        "desc": "From spec to support"
+      }
+    }
   },
   "services": {
     "title": "Services",
@@ -29,16 +52,80 @@
   },
   "portfolio": {
     "title": "Projects",
+    "clarify": "[clarify with author]",
+    "taskLabel": "Task:",
+    "solutionLabel": "Solution:",
+    "resultLabel": "Result:",
     "filters": {
       "all": "All",
       "erp": "ERP/CRM",
       "bots": "Bots",
       "ai": "AI",
       "automation": "Automation"
+    },
+    "projects": {
+      "warehouse-system": {
+        "title": "Warehouse Management System for Apparel Production",
+        "description": "Inventory tracking of fabrics and components. QR/barcode scanning, Cyrillic label printing, and automated low-stock notifications.",
+        "task": "Inventory tracking of raw materials and components in garment production. Manual tracking led to discrepancies.",
+        "solution": "Web-based system with barcode/QR scanning, label printing (Cyrillic-supported), and automated low-stock notifications.",
+        "result": "[clarify with author]"
+      },
+      "pots-tracking": {
+        "title": "POTS — Production Order Tracking System",
+        "description": "Workflow control from order to shipment for 'Rangkhona' garment manufacturing. Kanban board, Telegram notifications, and smart Excel import with photo auto-mapping.",
+        "task": "Production stage monitoring (from order placement to shipping) at 'Rangkhona' garment company.",
+        "solution": "Full-featured workflow system with Kanban board, Telegram notification bot, and smart Excel order parser with automated photo lookup by SKU.",
+        "result": "[clarify with author]"
+      },
+      "minipos-pro": {
+        "title": "MiniPOS Pro",
+        "description": "Cloud-based retail POS automation tailored for garment stores.",
+        "task": "Retail point-of-sale automation for apparel stores.",
+        "solution": "Cloud-based POS system customized for textile retail business requirements.",
+        "result": "[clarify with author]"
+      },
+      "chz-labels": {
+        "title": "chz_labels — Compliance Labeling System",
+        "description": "Web app for generating 300 DPI PDF labels with EAN-13 and DataMatrix barcodes. Includes live visual template editor.",
+        "task": "Manual compliance label generation was time-consuming and error-prone.",
+        "solution": "Web application for generating 300 DPI PDF labels with EAN-13 and DataMatrix barcodes, featuring a visual template layout editor.",
+        "result": "[clarify with author]"
+      },
+      "gym-bot": {
+        "title": "Telegram Bot for Fitness Club",
+        "description": "Digital membership passes with QR check-in system. Bilingual user interface (RU/UZ).",
+        "task": "Transition from paper memberships to digital format with visit tracking.",
+        "solution": "Telegram bot with QR codes for fast attendance logging and a bilingual interface (RU/UZ).",
+        "result": "[clarify with author]"
+      },
+      "zerotrace-bot": {
+        "title": "ZeroTrace — Encrypted Messaging Bot",
+        "description": "FSM-based Telegram bot for secure messaging using AES-256-GCM encryption.",
+        "task": "Secure instant communication channel for sensitive information.",
+        "solution": "Telegram bot featuring AES-256-GCM message encryption, designed utilizing Finite State Machines (FSM).",
+        "result": "[clarify with author]"
+      },
+      "bellissimo-bot": {
+        "title": "Bellissimo — Food Delivery Bot",
+        "description": "Telegram delivery bot featuring a catalog, shopping cart, and order alerts.",
+        "task": "Automating food delivery order intake via Telegram.",
+        "solution": "Telegram bot with item catalog, checkout process, and order notification alerts.",
+        "result": "Author's first commercial project, built with a formal contract and specification."
+      }
     }
   },
   "stack": {
-    "title": "Tech Stack"
+    "title": "Tech Stack",
+    "items": {
+      "react": "React",
+      "fastapi": "FastAPI",
+      "postgres": "PostgreSQL",
+      "docker": "Docker",
+      "python": "Python",
+      "telegram": "Telegram Bot API",
+      "ai": "AI & LLM Integrations"
+    }
   },
   "contact": {
     "title": "Contact",

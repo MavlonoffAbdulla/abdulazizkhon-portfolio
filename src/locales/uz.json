@@ -15,7 +15,30 @@
   },
   "about": {
     "title": "Men haqimda",
-    "text": "O'zbekistondan frilanser dasturchiman, biznes-jarayonlarni avtomatlashtirish bo'yicha ixtisoslashganman: ERP/CRM tizimlari, Telegram botlar, AI integratsiyasi va individual dasturiy ta'minot. Chakana savdo, logistika, tikuvchilik ishlab chiqarish va HoReCa sohalari bilan ishlayman."
+    "text": "O'zbekistondan frilanser dasturchiman, biznes-jarayonlarni avtomatlashtirish bo'yicha ixtisoslashganman: ERP/CRM tizimlari, Telegram botlar, AI integratsiyasi va individual dasturiy ta'minot. Chakana savdo, logistika, tikuvchilik ishlab chiqarish va HoReCa sohalari bilan ishlayman.",
+    "approach": "Yondashuvim: birinchi navbatda — aniq texnik topshiriq va arxitektura, keyin — doimiy natijalar namoyishi bilan ishlab chiqish va yakunda — qo'llab-quvvatlash bilan topshirish.",
+    "stats": {
+      "focus": {
+        "label": "Ixtisoslashuv",
+        "value": "Avtomatlashtirish",
+        "desc": "ERP/CRM va Botlar"
+      },
+      "location": {
+        "label": "Manzil",
+        "value": "O'zbekiston",
+        "desc": "Toshkent / Masofaviy"
+      },
+      "sectors": {
+        "label": "Sohalar",
+        "value": "B2B Segment",
+        "desc": "Chakana savdo, Logistika, HoReCa"
+      },
+      "model": {
+        "label": "Hamkorlik",
+        "value": "Tayyor holda",
+        "desc": "Tz dan qo'llab-quvvatlashgacha"
+      }
+    }
   },
   "services": {
     "title": "Xizmatlar",
@@ -29,16 +52,80 @@
   },
   "portfolio": {
     "title": "Loyihalar",
+    "clarify": "[muallifdan aniqlashtirish]",
+    "taskLabel": "Vazifa:",
+    "solutionLabel": "Yechim:",
+    "resultLabel": "Natija:",
     "filters": {
       "all": "Barchasi",
       "erp": "ERP/CRM",
       "bots": "Botlar",
       "ai": "AI",
       "automation": "Avtomatlashtirish"
+    },
+    "projects": {
+      "warehouse-system": {
+        "title": "Tikuvchilik ishlab chiqarishi uchun Warehouse tizimi",
+        "description": "Ombor qoldiqlari va butlovchi qismlar hisobi. Shtrix-kod/QR skanerlash, kirill alifbosini qo'llab-quvvatlaydigan etiketka chop etish, qoldiqlar kamayganda avtomatik bildirishnomalar.",
+        "task": "Ishlab chiqarishda xomashyo va butlovchi qismlar hisobi, qo'lda hisob-kitob qilish xatoliklarga olib kelardi.",
+        "solution": "Shtrix-kod/QR-kod skanerlash, etiketka chop etish (kirill alifbosi bilan) va qoldiqlar kamayganda avtomatik ogohlantirishga ega veb-tizim.",
+        "result": "[muallifdan aniqlashtirish]"
+      },
+      "pots-tracking": {
+        "title": "POTS — ishlab chiqarish buyurtmalarini kuzatish tizimi",
+        "description": "Kiyim ishlab chiqarish bosqichlarini nazorat qilish (buyurtmadan tortib jo'natishgacha). Kanban doskasi, Telegram bildirishnomalari va buyurtma Excel fayllarini aqlli tahlil qilish.",
+        "task": "«Rangxo'na» kiyim-kechak korxonasida ishlab chiqarish bosqichlarini (buyurtmadan tortib jo'natishgacha) nazorat qilish.",
+        "solution": "Kanban doskasi, bildirishnomalar uchun Telegram boti va buyurtma Excel fayllarini tahlil qilib, rasm bilan moslashtiradigan aqlli tizim.",
+        "result": "[muallifdan aniqlashtirish]"
+      },
+      "minipos-pro": {
+        "title": "MiniPOS Pro",
+        "description": "Kiyim-kechak do'konlari uchun chakana savdoni avtomatlashtirish bulutli tizimi.",
+        "task": "Kiyim-kechak do'konlari uchun chakana savdoni avtomatlashtirish.",
+        "solution": "To'qimachilik chakana savdo sohasiga moslashtirilgan bulutli POS-tizimi.",
+        "result": "[muallifdan aniqlashtirish]"
+      },
+      "chz-labels": {
+        "title": "chz_labels — «Halol belgi» markirovkasi",
+        "description": "EAN-13 va DataMatrix shtrix-kodlari bilan PDF-etiketkalar (300 DPI) yaratish uchun veb-ilova. Shablonlar vizual muharriri va jonli ko'rish.",
+        "task": "Markirovkani qo'lda yaratish ko'p vaqt olar va xatolarga to'la edi.",
+        "solution": "EAN-13 va DataMatrix shtrix-kodlari bilan PDF-etiketkalar (300 DPI) yaratadigan, shablonlarning vizual muharririga ega veb-ilova.",
+        "result": "[muallifdan aniqlashtirish]"
+      },
+      "gym-bot": {
+        "title": "Fitness klub uchun Telegram bot",
+        "description": "Qog'oz abonementlarni raqamli formatga o'tkazish, tashriflarni QR-kod orqali hisobga olish. Ikki tilli interfeys (RU/UZ).",
+        "task": "Qog'oz abonementlarni raqamli formatga o'tkazish va tashriflar hisobini yuritish.",
+        "solution": "Tashriflarni tezkor qayd etish uchun QR-kodli Telegram bot, ikki tilli interfeys (RU/UZ).",
+        "result": "[muallifdan aniqlashtirish]"
+      },
+      "zerotrace-bot": {
+        "title": "ZeroTrace — xabarlarni shifrlash boti",
+        "description": "AES-256-GCM shifrlash tizimiga ega, yakuniy avtomatlar (FSM) asosida qurilgan himoyalangan yozishmalar boti.",
+        "task": "Nozik ma'lumotlar uchun xavfsiz yozishmalar kanali.",
+        "solution": "AES-256-GCM shifrlash usuli bilan ishlaydigan, yakuniy avtomatlar (FSM) asosida qurilgan Telegram bot.",
+        "result": "[muallifdan aniqlashtirish]"
+      },
+      "bellissimo-bot": {
+        "title": "Bellissimo — taom yetkazib berish boti",
+        "description": "Katalog, buyurtmani rasmiylashtirish va bildirishnomalar bilan jihozlangan Telegram yetkazib berish boti.",
+        "task": "Telegram orqali taom yetkazib berish buyurtmalarini qabul qilish.",
+        "solution": "Mahsulotlar katalogi, buyurtma berish va bildirishnomalarga ega Telegram bot.",
+        "result": "Muallifning birinchi tijorat loyihasi, to'liq shartnoma va texnik topshiriq asosida bajarilgan."
+      }
     }
   },
   "stack": {
-    "title": "Texnologiyalar"
+    "title": "Texnologiyalar",
+    "items": {
+      "react": "React",
+      "fastapi": "FastAPI",
+      "postgres": "PostgreSQL",
+      "docker": "Docker",
+      "python": "Python",
+      "telegram": "Telegram Bot API",
+      "ai": "AI/LLM integratsiyalari"
+    }
   },
   "contact": {
     "title": "Aloqa",
