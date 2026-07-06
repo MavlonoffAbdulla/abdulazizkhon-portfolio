@@ -42,6 +42,9 @@ content: добавлен кейс warehouse-системы в portfolio
 
 ## Проверка перед деплоем (чеклист)
 - [ ] `npm run build` проходит без ошибок и предупреждений
+- [ ] Заменить временный домен `yourdomain.com` на реальный в файлах `public/robots.txt`, `public/sitemap.xml` и в мета-тегах Open Graph/Twitter в `index.html`
+- [ ] Заменить идентификатор Яндекс.Метрики `YM_COUNTER_ID_PLACEHOLDER` на реальный номер счетчика в `index.html`
+- [ ] Заменить плейсхолдеры контактов в `src/data/contacts.js` на реальные контактные данные автора (Telegram username, почта, телефон)
 - [ ] Все 3 языка проверены вручную на реальном контенте (не только на ключах)
 - [ ] Все ссылки контактов открывают нужные приложения (Telegram/mail/tel)
 - [ ] Lighthouse: Performance / SEO / Accessibility ≥ 85

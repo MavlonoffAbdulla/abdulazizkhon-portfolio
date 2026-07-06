@@ -41,16 +41,17 @@
 - [x] Наполнить `projects.js` (и языковые файлы) финальными формулировками (см. `CONTENT.md`, при необходимости уточнить у автора)
 
 ## Этап 4 — Интеграции
-- [ ] Кнопка "Связаться" → deep-link `t.me/<username>?text=...`
-- [ ] mailto: и tel: ссылки для email/телефона
-- [ ] SEO: `<title>`, meta description, Open Graph теги, favicon, `sitemap.xml`, `robots.txt`
-- [ ] Подключить аналитику (Yandex Metrika или Plausible — на выбор)
+- [x] Кнопка "Связаться" → deep-link `t.me/<username>?text=...`
+- [x] mailto: и tel: ссылки для email/телефона
+- [x] SEO: `<title>`, meta description, Open Graph теги, favicon, `sitemap.xml`, `robots.txt`
+- [x] Подключить аналитику (Yandex Metrika или Plausible — на выбор)
 
 ## Этап 5 — Полировка
+- [ ] Оптимизация размера бандла ThreeDHeroScene (исследование точечных импортов three.js/fiber, минимизация веса 3D-чанка)
 - [ ] Лёгкие scroll-анимации (fade/slide), без перегруза
-- [ ] Проверка кроссбраузерности (Chrome, Safari, Firefox)
-- [ ] Lighthouse (мобильный профиль) конкретно на странице с 3D-сценой ≥ 85 — если ниже,
-      сначала упрощать геометрию/сцену (см. `ANIMATION_3D.md`), не отключать 3D сразу
+- [ ] Проверить производительность (Lighthouse: Performance ≥ 85)
+- [ ] Проверить кроссбраузерность (Chrome, Safari, Firefox)
+- [ ] Финальная проверка по чеклисту перед деплоем
 - [ ] Проверка на реальном телефоне и планшете (не только DevTools) — 3D-сцена не должна
       подвисать/греть устройство и не должна загружаться на экранах < 768px
 - [ ] Lighthouse: Performance / SEO / Accessibility ≥ 85–90
