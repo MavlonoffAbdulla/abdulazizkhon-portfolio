@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "about": "Men haqimda",
+    "services": "Xizmatlar",
+    "portfolio": "Loyihalar",
+    "stack": "Texnologiyalar",
+    "contact": "Aloqa",
+    "cta": "Bog'lanish"
+  },
+  "hero": {
+    "title": "Biznesni avtomatlashtirish",
+    "subtitle": "Chakana savdo, logistika va ishlab chiqarish uchun ERP/CRM tizimlari, Telegram botlar va AI integratsiyalari. Vazifani tahlil qilishdan tayyor yechimgacha.",
+    "ctaPrimary": "Loyihalarni ko'rish",
+    "ctaSecondary": "Telegram orqali yozish"
+  },
+  "about": {
+    "title": "Men haqimda",
+    "text": "O'zbekistondan frilanser dasturchiman, biznes-jarayonlarni avtomatlashtirish bo'yicha ixtisoslashganman: ERP/CRM tizimlari, Telegram botlar, AI integratsiyasi va individual dasturiy ta'minot. Chakana savdo, logistika, tikuvchilik ishlab chiqarish va HoReCa sohalari bilan ishlayman."
+  },
+  "services": {
+    "title": "Xizmatlar",
+    "items": {
+      "erp": { "title": "ERP/CRM tizimlari", "text": "Ombor, ishlab chiqarish, buyurtmalar hisobi; shtrix-kod/QR, etiketka chop etish." },
+      "bots": { "title": "Telegram botlar", "text": "Sotuv, yetkazib berish, raqamli abonementlar, himoyalangan aloqa kanallari." },
+      "ai": { "title": "AI integratsiyalari", "text": "Hujjatlarni qayta ishlashni avtomatlashtirish, ma'lumotlarni aqlli tahlil qilish, AI asosidagi hisobotlar." },
+      "automation": { "title": "Hujjat aylanishini avtomatlashtirish", "text": "PDF/Excel hisobotlarini generatsiya qilish, «Halol belgi» markirovkasi." },
+      "custom": { "title": "Individual dasturiy ta'minot", "text": "Backend + frontend + joylashtirish + topshirilgandan keyingi qo'llab-quvvatlash." }
+    }
+  },
+  "portfolio": {
+    "title": "Loyihalar",
+    "filters": {
+      "all": "Barchasi",
+      "erp": "ERP/CRM",
+      "bots": "Botlar",
+      "ai": "AI",
+      "automation": "Avtomatlashtirish"
+    }
+  },
+  "stack": {
+    "title": "Texnologiyalar"
+  },
+  "contact": {
+    "title": "Aloqa",
+    "text": "Vazifangizni muhokama qilishga tayyorman — Telegram orqali yozing, bu eng tezkor aloqa usuli.",
+    "telegram": "Telegram orqali yozish",
+    "email": "Email",
+    "phone": "Telefon"
+  },
+  "footer": {
+    "rights": "Barcha huquqlar himoyalangan."
+  }
+}

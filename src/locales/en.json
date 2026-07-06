@@ -1,0 +1,53 @@
+{
+  "nav": {
+    "about": "About",
+    "services": "Services",
+    "portfolio": "Projects",
+    "stack": "Tech Stack",
+    "contact": "Contact",
+    "cta": "Get in touch"
+  },
+  "hero": {
+    "title": "End-to-end business automation",
+    "subtitle": "ERP/CRM systems, Telegram bots and AI integrations for retail, logistics and manufacturing. From requirements to a working solution.",
+    "ctaPrimary": "View projects",
+    "ctaSecondary": "Message on Telegram"
+  },
+  "about": {
+    "title": "About me",
+    "text": "Freelance developer based in Uzbekistan, specializing in business process automation: ERP/CRM systems, Telegram bots, AI integration and custom software development. I work with retail, logistics, garment manufacturing and hospitality businesses."
+  },
+  "services": {
+    "title": "Services",
+    "items": {
+      "erp": { "title": "ERP/CRM systems", "text": "Warehouse, production and order management; barcodes/QR, label printing." },
+      "bots": { "title": "Telegram bots", "text": "Sales, delivery, digital memberships, encrypted communication channels." },
+      "ai": { "title": "AI integrations", "text": "Document processing automation, smart data parsing, AI-generated reports." },
+      "automation": { "title": "Document workflow automation", "text": "PDF/Excel report generation, compliance labeling." },
+      "custom": { "title": "Custom development", "text": "Backend + frontend + deployment + post-launch support." }
+    }
+  },
+  "portfolio": {
+    "title": "Projects",
+    "filters": {
+      "all": "All",
+      "erp": "ERP/CRM",
+      "bots": "Bots",
+      "ai": "AI",
+      "automation": "Automation"
+    }
+  },
+  "stack": {
+    "title": "Tech Stack"
+  },
+  "contact": {
+    "title": "Contact",
+    "text": "Ready to discuss your project — message me on Telegram, it's the fastest way to reach me.",
+    "telegram": "Message on Telegram",
+    "email": "Email",
+    "phone": "Phone"
+  },
+  "footer": {
+    "rights": "All rights reserved."
+  }
+}
