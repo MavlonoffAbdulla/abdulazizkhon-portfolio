@@ -275,15 +275,11 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
   }, [enableParallax, isMobile]);
 
   // Responsive styling wrapper
-  const containerClass = `absolute inset-y-0 w-full flex items-center justify-center pointer-events-none z-0 ${
-    isMobile
-      ? "opacity-20 top-24"
-      : "md:items-start md:justify-end md:p-8 md:opacity-30 lg:opacity-100 lg:items-center lg:justify-center lg:right-0 lg:left-auto lg:w-[45%]"
-  }`;
+  const containerClass = isMobile
+    ? "relative w-full h-full flex items-center justify-center pointer-events-none z-0"
+    : "absolute inset-y-0 w-full flex items-center justify-center md:items-start md:justify-end md:p-8 md:opacity-30 lg:opacity-100 lg:items-center lg:justify-center lg:right-0 lg:left-auto lg:w-[45%] pointer-events-none z-0";
 
-  const canvasClass = isMobile
-    ? "w-48 h-48 max-w-[12rem] max-h-[12rem]"
-    : "w-full h-full max-w-[20rem] max-h-[20rem] md:max-w-[24rem] md:max-h-[24rem] lg:max-w-full lg:max-h-full";
+  const canvasClass = "w-full h-full";
 
   return (
     <div ref={containerRef} className={containerClass}>

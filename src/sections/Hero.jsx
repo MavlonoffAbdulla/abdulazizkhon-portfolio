@@ -96,18 +96,34 @@ export default function Hero() {
         </svg>
       </div>
 
-      {/* Background: 3D Scene (Lazy Loaded) or Static Fallback Watermark */}
-      {shouldShow3D ? (
-        <Suspense fallback={<StaticWatermark />}>
-          <ThreeDHeroScene enableParallax={enableParallax} isMobile={isMobile} />
-        </Suspense>
-      ) : (
-        <StaticWatermark />
+      {/* Desktop/Tablet Background: 3D Scene or Watermark */}
+      {!isMobile && (
+        shouldShow3D ? (
+          <Suspense fallback={<StaticWatermark isMobile={false} />}>
+            <ThreeDHeroScene enableParallax={enableParallax} isMobile={false} />
+          </Suspense>
+        ) : (
+          <StaticWatermark isMobile={false} />
+        )
       )}
 
       {/* Hero Content Grid (Text left 55%, empty right 45% on desktop to prevent overlaps) */}
       <div className="relative max-w-6xl w-full mx-auto px-4 z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
         <div className="w-full lg:w-[55%] text-center lg:text-left flex flex-col items-center lg:items-start">
+          
+          {/* Mobile-only standalone Logo block (w-[65vw] max-w-[280px], full opacity, drop-shadow glow) */}
+          {isMobile && (
+            <div className="w-[65vw] max-w-[280px] h-[65vw] max-h-[280px] mb-8 flex items-center justify-center pointer-events-none relative drop-shadow-[0_0_35px_rgba(61,139,255,0.45)] animate-fade-in">
+              {shouldShow3D ? (
+                <Suspense fallback={<StaticWatermark isMobile={true} />}>
+                  <ThreeDHeroScene enableParallax={false} isMobile={true} />
+                </Suspense>
+              ) : (
+                <StaticWatermark isMobile={true} />
+              )}
+            </div>
+          )}
+
           {/* Main Badge / Small text */}
           <span className="inline-block text-xs md:text-sm font-semibold text-primary-bright bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full mb-6 uppercase tracking-wider shadow-glow">
             {t("nav.cta")}
