@@ -1,14 +1,16 @@
 import { useTranslation } from "react-i18next";
+import useScrollReveal from "../hooks/useScrollReveal";
 
 export default function About() {
   const { t } = useTranslation();
+  const revealRef = useScrollReveal();
 
   return (
     <section
       id="about"
       className="bg-bgAlt py-16 md:py-24 scroll-mt-20 border-t border-borderSoft"
     >
-      <div className="max-w-6xl mx-auto px-4">
+      <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Text Content */}
           <div className="lg:col-span-7">
@@ -19,7 +21,7 @@ export default function About() {
               {t("about.text")}
             </p>
             {/* Detailed Approach */}
-            <div className="border-l-4 border-primary pl-4 py-2 my-6 bg-white/50 rounded-r-lg">
+            <div className="border-l-4 border-primary-bright pl-4 py-3 my-6 bg-bg/45 rounded-r-lg">
               <p className="text-ink font-medium italic text-base leading-relaxed">
                 {t(
                   "about.approach",
@@ -31,8 +33,9 @@ export default function About() {
 
           {/* Stats / Info Grid */}
           <div className="lg:col-span-5 grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div className="bg-white border border-borderSoft rounded-xl p-5 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary block mb-2">
+            {/* Stat 1 */}
+            <div className="bg-bg border border-borderSoft rounded-xl p-5 shadow-sm hover:bg-surface hover:border-primary/45 hover:shadow-glow transition-all duration-300">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary-bright block mb-2">
                 {t("about.stats.focus.label", "Специализация")}
               </span>
               <p className="text-ink font-semibold text-lg">
@@ -43,8 +46,9 @@ export default function About() {
               </p>
             </div>
 
-            <div className="bg-white border border-borderSoft rounded-xl p-5 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary block mb-2">
+            {/* Stat 2 */}
+            <div className="bg-bg border border-borderSoft rounded-xl p-5 shadow-sm hover:bg-surface hover:border-primary/45 hover:shadow-glow transition-all duration-300">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary-bright block mb-2">
                 {t("about.stats.location.label", "Локация")}
               </span>
               <p className="text-ink font-semibold text-lg">
@@ -55,8 +59,9 @@ export default function About() {
               </p>
             </div>
 
-            <div className="bg-white border border-borderSoft rounded-xl p-5 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary block mb-2">
+            {/* Stat 3 */}
+            <div className="bg-bg border border-borderSoft rounded-xl p-5 shadow-sm hover:bg-surface hover:border-primary/45 hover:shadow-glow transition-all duration-300">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary-bright block mb-2">
                 {t("about.stats.sectors.label", "Сферы")}
               </span>
               <p className="text-ink font-semibold text-lg">
@@ -67,8 +72,9 @@ export default function About() {
               </p>
             </div>
 
-            <div className="bg-white border border-borderSoft rounded-xl p-5 shadow-sm">
-              <span className="text-xs font-bold uppercase tracking-wider text-primary block mb-2">
+            {/* Stat 4 */}
+            <div className="bg-bg border border-borderSoft rounded-xl p-5 shadow-sm hover:bg-surface hover:border-primary/45 hover:shadow-glow transition-all duration-300">
+              <span className="text-xs font-bold uppercase tracking-wider text-primary-bright block mb-2">
                 {t("about.stats.model.label", "Сотрудничество")}
               </span>
               <p className="text-ink font-semibold text-lg">

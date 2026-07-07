@@ -1,6 +1,6 @@
 import { useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
-import { X } from "lucide-react";
+import X from "lucide-react/dist/esm/icons/x";
 
 export default function ProjectModal({ project, onClose }) {
   const { t } = useTranslation();
@@ -29,7 +29,7 @@ export default function ProjectModal({ project, onClose }) {
       if (event.key === "Escape") {
         onClose();
       }
-      
+
       // Simple focus trap: tab key wraps focus inside the modal
       if (event.key === "Tab" && modalRef.current) {
         const focusableElements = modalRef.current.querySelectorAll(
@@ -73,7 +73,7 @@ export default function ProjectModal({ project, onClose }) {
 
   return (
     <div
-      className="fixed inset-0 bg-ink/60 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
+      className="fixed inset-0 bg-bg/80 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in"
       onClick={handleBackdropClick}
     >
       <div
@@ -81,13 +81,13 @@ export default function ProjectModal({ project, onClose }) {
         role="dialog"
         aria-modal="true"
         aria-labelledby="modal-title"
-        className="bg-white rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-6 md:p-8 animate-slide-up border border-borderSoft"
+        className="bg-bgAlt rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-6 md:p-8 animate-slide-up border border-borderSoft"
       >
         {/* Close Button */}
         <button
           ref={closeButtonRef}
           onClick={onClose}
-          className="absolute top-4 right-4 md:top-6 md:right-6 p-2 text-muted hover:text-primary rounded-lg border border-transparent hover:border-borderSoft transition-colors focus:outline-none focus:ring-2 focus:ring-primary/20"
+          className="absolute top-4 right-4 md:top-6 md:right-6 p-2 text-muted hover:text-primary-bright rounded-lg border border-transparent hover:border-borderSoft transition-colors focus:outline-none focus:ring-2 focus:ring-primary/40"
           aria-label={t("portfolio.closeModal", "Закрыть")}
         >
           <X className="w-5 h-5" />
@@ -95,7 +95,7 @@ export default function ProjectModal({ project, onClose }) {
 
         {/* Category Badge */}
         <div className="mb-3">
-          <span className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1 bg-primary-light text-primary rounded-full">
+          <span className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1 bg-primary/10 text-primary-bright border border-primary/20 rounded-full">
             {t(`portfolio.filters.${project.category}`)}
           </span>
         </div>
@@ -139,7 +139,7 @@ export default function ProjectModal({ project, onClose }) {
               {project.stack.map((tech, index) => (
                 <span
                   key={index}
-                  className="text-xs bg-bgAlt text-muted px-2.5 py-1 rounded border border-borderSoft"
+                  className="text-xs bg-primary/10 text-primary-bright px-2.5 py-1 rounded border border-primary/20"
                 >
                   {isPlaceholder(tech) ? t("portfolio.clarify") : tech}
                 </span>
@@ -149,8 +149,8 @@ export default function ProjectModal({ project, onClose }) {
 
           {/* Result section */}
           <div className="border-t border-borderSoft pt-6">
-            <div className="bg-primary-light/50 border border-primary/10 rounded-xl p-5">
-              <h4 className="text-xs font-extrabold text-primary uppercase tracking-wider mb-2">
+            <div className="bg-primary/10 border border-primary/20 rounded-xl p-5 shadow-glow">
+              <h4 className="text-xs font-extrabold text-primary-bright uppercase tracking-wider mb-2">
                 {t("portfolio.resultLabel")}
               </h4>
               <p

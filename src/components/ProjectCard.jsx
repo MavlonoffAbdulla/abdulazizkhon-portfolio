@@ -27,12 +27,12 @@ export default function ProjectCard({ project, onClick }) {
       aria-label={t(`portfolio.projects.${project.id}.title`)}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className="bg-white border border-borderSoft rounded-xl p-6 transition-all duration-300 hover:shadow-md flex flex-col justify-between h-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/20"
+      className="bg-bg border border-borderSoft rounded-xl p-6 transition-all duration-300 hover:bg-surface hover:border-primary/45 hover:shadow-glow flex flex-col justify-between h-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/40"
     >
       <div>
         {/* Category Badge */}
         <div className="flex items-center justify-between mb-4">
-          <span className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1 bg-primary-light text-primary rounded-full">
+          <span className="text-xs font-semibold tracking-wider uppercase px-2.5 py-1 bg-primary/10 text-primary-bright border border-primary/20 rounded-full">
             {t(`portfolio.filters.${project.category}`)}
           </span>
         </div>
@@ -54,7 +54,7 @@ export default function ProjectCard({ project, onClick }) {
           {project.stack.map((tech, index) => (
             <span
               key={index}
-              className="text-xs bg-bgAlt text-muted px-2 py-1 rounded border border-borderSoft"
+              className="text-xs bg-primary/10 text-primary-bright px-2 py-1 rounded border border-primary/20"
             >
               {isPlaceholder(tech) ? t("portfolio.clarify") : tech}
             </span>

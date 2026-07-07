@@ -4,10 +4,13 @@ import { projects } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
 
+import useScrollReveal from "../hooks/useScrollReveal";
+
 export default function Portfolio() {
   const { t } = useTranslation();
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
+  const revealRef = useScrollReveal();
 
   const filters = ["all", "erp", "bots", "ai", "automation"];
 
@@ -20,13 +23,13 @@ export default function Portfolio() {
       id="portfolio"
       className="bg-bgAlt py-16 md:py-24 scroll-mt-20 border-t border-borderSoft"
     >
-      <div className="max-w-6xl mx-auto px-4">
+      <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-8">
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("portfolio.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-primary mx-auto rounded-full"></div>
+          <div className="w-12 h-1.5 bg-primary-bright mx-auto rounded-full shadow-glow"></div>
         </div>
 
         {/* Filter Buttons */}
@@ -37,10 +40,10 @@ export default function Portfolio() {
               <button
                 key={filter}
                 onClick={() => setActiveFilter(filter)}
-                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 ${
+                className={`px-4 py-2 rounded-lg text-sm font-semibold transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/45 ${
                   isActive
-                    ? "bg-primary text-white shadow-sm"
-                    : "bg-white text-muted hover:text-ink hover:bg-white/80 border border-borderSoft"
+                    ? "bg-primary text-white shadow-glow"
+                    : "bg-bg text-muted hover:text-ink hover:bg-surface border border-borderSoft"
                 }`}
               >
                 {t(`portfolio.filters.${filter}`)}

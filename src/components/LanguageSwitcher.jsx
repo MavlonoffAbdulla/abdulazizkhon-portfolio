@@ -22,10 +22,10 @@ export default function LanguageSwitcher() {
           <button
             key={lang.code}
             onClick={() => handleLanguageChange(lang.code)}
-            className={`px-2 py-1 rounded text-xs font-bold transition-all duration-200 ${
+            className={`px-2 py-1 rounded text-xs font-bold transition-all duration-200 focus:outline-none ${
               isActive
-                ? "bg-primary text-white shadow-sm"
-                : "text-muted hover:text-ink hover:bg-white/50"
+                ? "bg-primary text-white shadow-glow"
+                : "text-muted hover:text-ink hover:bg-surface/50"
             }`}
           >
             {lang.label}
