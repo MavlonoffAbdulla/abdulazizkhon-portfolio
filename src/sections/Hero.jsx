@@ -22,10 +22,33 @@ export default function Hero() {
   const { t } = useTranslation();
   const [shouldShow3D, setShouldShow3D] = useState(false);
   const [enableParallax, setEnableParallax] = useState(false);
+  const [isMobile, setIsMobile] = useState(false);
+  const [pageLoaded, setPageLoaded] = useState(false);
 
+  // 1. Delay 3D scene loading until the window is fully loaded & browser is idle
   useEffect(() => {
+    const handleLoad = () => {
+      if (window.requestIdleCallback) {
+        window.requestIdleCallback(() => setPageLoaded(true));
+      } else {
+        setTimeout(() => setPageLoaded(true), 250);
+      }
+    };
+
+    if (document.readyState === "complete") {
+      handleLoad();
+    } else {
+      window.addEventListener("load", handleLoad);
+      return () => window.removeEventListener("load", handleLoad);
+    }
+  }, []);
+
+  // 2. Perform capability check after page is completely loaded
+  useEffect(() => {
+    if (!pageLoaded) return;
+
     const checkCapabilities = () => {
-      const isLargeScreen = window.matchMedia("(min-width: 768px)").matches;
+      const isMobileScreen = window.matchMedia("(max-width: 767px)").matches;
       const isParallaxScreen = window.matchMedia("(min-width: 1024px)").matches;
       const isPowerful =
         navigator.hardwareConcurrency === undefined ||
@@ -35,8 +58,10 @@ export default function Hero() {
       ).matches;
       const webGL = isWebGLAvailable();
 
-      setShouldShow3D(isLargeScreen && isPowerful && !prefersReducedMotion && webGL);
+      // Enforce simplified 3D on mobile, keeping static logo only for weak/no-webgl/no-motion
+      setShouldShow3D(isPowerful && !prefersReducedMotion && webGL);
       setEnableParallax(isParallaxScreen);
+      setIsMobile(isMobileScreen);
     };
 
     checkCapabilities();
@@ -47,7 +72,7 @@ export default function Hero() {
 
     window.addEventListener("resize", handleResize);
     return () => window.removeEventListener("resize", handleResize);
-  }, []);
+  }, [pageLoaded]);
 
   return (
     <section
@@ -74,7 +99,7 @@ export default function Hero() {
       {/* Background: 3D Scene (Lazy Loaded) or Static Fallback Watermark */}
       {shouldShow3D ? (
         <Suspense fallback={<StaticWatermark />}>
-          <ThreeDHeroScene enableParallax={enableParallax} />
+          <ThreeDHeroScene enableParallax={enableParallax} isMobile={isMobile} />
         </Suspense>
       ) : (
         <StaticWatermark />
