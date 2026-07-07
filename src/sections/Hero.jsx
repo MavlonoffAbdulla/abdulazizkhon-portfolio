@@ -111,9 +111,9 @@ export default function Hero() {
       <div className="relative max-w-6xl w-full mx-auto px-4 z-10 flex flex-col lg:flex-row items-center justify-between gap-12">
         <div className="w-full lg:w-[55%] text-center lg:text-left flex flex-col items-center lg:items-start">
           
-          {/* Mobile-only standalone Logo block (w-[65vw] max-w-[280px], full opacity, drop-shadow glow) */}
+          {/* Mobile-only standalone Logo block (w-[78vw] max-w-[360px], infinite floating and glowing) */}
           {isMobile && (
-            <div className="w-[65vw] max-w-[280px] h-[65vw] max-h-[280px] mb-8 flex items-center justify-center pointer-events-none relative drop-shadow-[0_0_35px_rgba(61,139,255,0.45)] animate-fade-in">
+            <div className="w-[78vw] max-w-[360px] h-[78vw] max-h-[360px] mb-8 flex items-center justify-center pointer-events-none relative animate-float-glow">
               {shouldShow3D ? (
                 <Suspense fallback={<StaticWatermark isMobile={true} />}>
                   <ThreeDHeroScene enableParallax={false} isMobile={true} />
