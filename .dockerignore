@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+stats.html
+*.log
+.gemini
+CVS
+.svn
+.hg
+.gitattributes
+.github
+.agents
+*.md
