@@ -92,7 +92,7 @@ export default function ProjectModal({ project, onClose }) {
           role="dialog"
           aria-modal="true"
           aria-labelledby="modal-title"
-          className="bg-bgAlt rounded-xl shadow-xl max-w-2xl w-full max-h-[90vh] overflow-y-auto relative p-6 md:p-8 animate-slide-up border border-borderSoft"
+          className="bg-bgAlt rounded-xl shadow-xl max-w-2xl w-full max-h-[85vh] overflow-y-auto relative p-6 md:p-8 animate-scale-up border border-borderSoft"
         >
           {/* Close Button */}
           <button
