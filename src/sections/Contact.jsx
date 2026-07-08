@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import Send from "lucide-react/dist/esm/icons/send";
 import Mail from "lucide-react/dist/esm/icons/mail";
@@ -13,6 +13,35 @@ export default function Contact() {
 
   const [formData, setFormData] = useState({ name: "", contact: "", message: "" });
   const [status, setStatus] = useState("idle"); // 'idle' | 'loading' | 'success' | 'error'
+
+  // Auto-fill fields if running inside Telegram WebApp (Mini App)
+  useEffect(() => {
+    try {
+      if (window.Telegram && window.Telegram.WebApp) {
+        const tg = window.Telegram.WebApp;
+        tg.ready();
+        tg.expand(); // Expand webview to full height
+
+        const user = tg.initDataUnsafe?.user;
+        if (user) {
+          const fullName = [user.first_name, user.last_name].filter(Boolean).join(" ");
+          const userContact = user.username
+            ? `@${user.username}`
+            : user.id
+            ? `TG ID: ${user.id}`
+            : "";
+
+          setFormData((prev) => ({
+            ...prev,
+            name: fullName || prev.name,
+            contact: userContact || prev.contact
+          }));
+        }
+      }
+    } catch (e) {
+      console.warn("Telegram WebApp initialization error:", e);
+    }
+  }, []);
 
   const isPlaceholder = (text) => text && text.includes("placeholder");
 
