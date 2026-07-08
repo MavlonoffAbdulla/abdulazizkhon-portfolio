@@ -132,7 +132,20 @@
     "text": "Ready to discuss your project — message me on Telegram, it's the fastest way to reach me.",
     "telegram": "Message on Telegram",
     "email": "Email",
-    "phone": "Phone"
+    "phone": "Phone",
+    "form": {
+      "title": "Send a Message",
+      "name": "Your Name",
+      "namePlaceholder": "John",
+      "contact": "Contact details (Phone / Telegram / Email)",
+      "contactPlaceholder": "example@mail.com or @username",
+      "message": "Project Details",
+      "messagePlaceholder": "Describe your task...",
+      "send": "Send Message",
+      "sending": "Sending...",
+      "success": "Message sent successfully! I will reach out to you soon.",
+      "error": "Failed to send message. Please try again."
+    }
   },
   "footer": {
     "rights": "All rights reserved."

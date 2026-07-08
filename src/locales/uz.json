@@ -132,7 +132,20 @@
     "text": "Vazifangizni muhokama qilishga tayyorman — Telegram orqali yozing, bu eng tezkor aloqa usuli.",
     "telegram": "Telegram orqali yozish",
     "email": "Email",
-    "phone": "Telefon"
+    "phone": "Telefon",
+    "form": {
+      "title": "So'rov qoldirish",
+      "name": "Ismingiz",
+      "namePlaceholder": "Javohir",
+      "contact": "Bog'lanish uchun kontakt (Telefon / Telegram / Email)",
+      "contactPlaceholder": "+998... yoki @username",
+      "message": "Loyiha tavsifi",
+      "messagePlaceholder": "Vazifangizni tasvirlab bering...",
+      "send": "Xabarni yuborish",
+      "sending": "Yuborilmoqda...",
+      "success": "Xabar muvaffaqiyatli yuborildi! Tez orada siz bilan bog'lanaman.",
+      "error": "Yuborishda xatolik yuz berdi. Qayta urinib ko'ring."
+    }
   },
   "footer": {
     "rights": "Barcha huquqlar himoyalangan."
