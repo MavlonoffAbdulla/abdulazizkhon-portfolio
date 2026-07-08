@@ -52,7 +52,7 @@ export default function Hero() {
       const isParallaxScreen = window.matchMedia("(min-width: 1024px)").matches;
       const isPowerful =
         navigator.hardwareConcurrency === undefined ||
-        navigator.hardwareConcurrency > 4;
+        navigator.hardwareConcurrency >= 2; // iOS limitations (reports 2 or 4 cores for fingerprint protection)
       const prefersReducedMotion = window.matchMedia(
         "(prefers-reduced-motion: reduce)"
       ).matches;
