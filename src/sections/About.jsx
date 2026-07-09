@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import useScrollReveal from "../hooks/useScrollReveal";
+import SectionNumber from "../components/SectionNumber";
 
 export default function About() {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ export default function About() {
         <div className="grid grid-cols-1 lg:grid-cols-12 gap-12 items-center">
           {/* Text Content */}
           <div className="lg:col-span-7">
+            <SectionNumber value="01" />
             <h2 className="text-3xl md:text-4xl font-extrabold text-ink mb-6 tracking-tight">
               {t("about.title")}
             </h2>

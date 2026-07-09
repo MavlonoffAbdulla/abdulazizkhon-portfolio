@@ -9,6 +9,8 @@
   },
   "hero": {
     "title": "End-to-end business automation",
+    "rolePrefix": "I build",
+    "roles": ["ERP/CRM systems", "Telegram bots", "AI integrations", "document automation"],
     "subtitle": "ERP/CRM systems, Telegram bots and AI integrations for retail, logistics and manufacturing. From requirements to a working solution.",
     "ctaPrimary": "View projects",
     "ctaSecondary": "Message on Telegram"

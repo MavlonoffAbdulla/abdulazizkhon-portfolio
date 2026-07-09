@@ -6,6 +6,7 @@ import FileText from "lucide-react/dist/esm/icons/file-text";
 import Code from "lucide-react/dist/esm/icons/code";
 
 import useScrollReveal from "../hooks/useScrollReveal";
+import SectionNumber from "../components/SectionNumber";
 
 export default function Services() {
   const { t } = useTranslation();
@@ -27,10 +28,11 @@ export default function Services() {
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-12">
+          <SectionNumber value="02" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("services.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-primary-bright mx-auto rounded-full shadow-glow"></div>
+          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] mx-auto rounded-full shadow-glow"></div>
         </div>
 
         {/* Grid of service cards */}

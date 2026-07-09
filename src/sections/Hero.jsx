@@ -2,6 +2,7 @@ import React, { useState, useEffect, Suspense } from "react";
 import { useTranslation } from "react-i18next";
 import { contacts } from "../data/contacts";
 import StaticWatermark from "../components/StaticWatermark";
+import useTypewriter from "../hooks/useTypewriter";
 
 // Lazy load 3D scene to keep it out of the main bundle
 const ThreeDHeroScene = React.lazy(() => import("./ThreeDHeroScene"));
@@ -20,6 +21,17 @@ function isWebGLAvailable() {
 
 export default function Hero() {
   const { t } = useTranslation();
+
+  // Последнее слово заголовка — градиентный акцент (см. DESIGN.md: акцентные слова в заголовках)
+  const heroTitle = t("hero.title");
+  const titleWords = heroTitle.split(" ");
+  const titleLead = titleWords.slice(0, -1).join(" ");
+  const titleAccent = titleWords[titleWords.length - 1];
+
+  // Печатающийся текст ролей (ротация: ERP/CRM, боты, AI…)
+  const roles = t("hero.roles", { returnObjects: true });
+  const typedRole = useTypewriter(Array.isArray(roles) ? roles : []);
+
   const [shouldShow3D, setShouldShow3D] = useState(false);
   const [enableParallax, setEnableParallax] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
@@ -124,15 +136,27 @@ export default function Hero() {
             </div>
           )}
 
-          {/* Main Badge / Small text */}
-          <span className="inline-block text-xs md:text-sm font-semibold text-primary-bright bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full mb-6 uppercase tracking-wider shadow-glow">
+          {/* Main Badge / Small text (пульсирующая точка — «живой» статус) */}
+          <span className="inline-flex items-center gap-2.5 text-xs md:text-sm font-semibold text-primary-bright bg-primary/10 border border-primary/20 px-3.5 py-1.5 rounded-full mb-6 uppercase tracking-wider shadow-glow">
+            <span className="relative flex h-2 w-2" aria-hidden="true">
+              <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary-bright opacity-75 motion-reduce:animate-none"></span>
+              <span className="relative inline-flex rounded-full h-2 w-2 bg-primary-bright"></span>
+            </span>
             {t("nav.cta")}
           </span>
 
-          {/* H1 Heading */}
+          {/* H1 Heading (последнее слово — градиент с шиммером) */}
           <h1 className="text-4xl md:text-6xl font-extrabold text-ink tracking-tight leading-tight mb-6">
-            {t("hero.title")}
+            {titleLead}{titleLead ? " " : ""}
+            <span className="text-gradient">{titleAccent}</span>
           </h1>
+
+          {/* Typewriter: ротация ролей с мигающим курсором */}
+          <div className="flex items-center justify-center lg:justify-start gap-2.5 text-lg md:text-2xl font-semibold mb-6 min-h-[2rem] md:min-h-[2.25rem]">
+            <span className="text-muted">{t("hero.rolePrefix")}</span>
+            <span className="text-primary-bright">{typedRole}</span>
+            <span className="typed-caret" aria-hidden="true"></span>
+          </div>
 
           {/* Subtitle */}
           <p className="max-w-2xl text-muted text-lg md:text-xl leading-relaxed mb-10">

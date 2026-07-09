@@ -1,5 +1,6 @@
 import { useTranslation } from "react-i18next";
 import useScrollReveal from "../hooks/useScrollReveal";
+import SectionNumber from "../components/SectionNumber";
 
 export default function TechStack() {
   const { t } = useTranslation();
@@ -15,10 +16,11 @@ export default function TechStack() {
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-12">
+          <SectionNumber value="04" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("stack.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-primary-bright mx-auto rounded-full shadow-glow"></div>
+          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] mx-auto rounded-full shadow-glow"></div>
         </div>
 
         {/* Tech Grid */}

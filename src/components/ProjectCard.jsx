@@ -18,6 +18,13 @@ export default function ProjectCard({ project, onClick }) {
     }
   };
 
+  // Позиция курсора в CSS-переменных — для glow, следующего за мышью
+  const handleMouseMove = (e) => {
+    const rect = e.currentTarget.getBoundingClientRect();
+    e.currentTarget.style.setProperty("--mx", `${e.clientX - rect.left}px`);
+    e.currentTarget.style.setProperty("--my", `${e.clientY - rect.top}px`);
+  };
+
   return (
     <div
       ref={cardRef}
@@ -27,8 +34,18 @@ export default function ProjectCard({ project, onClick }) {
       aria-label={t(`portfolio.projects.${project.id}.title`)}
       onClick={onClick}
       onKeyDown={handleKeyDown}
-      className="bg-bg border border-borderSoft rounded-xl p-6 transition-all duration-300 hover:bg-surface hover:border-primary/45 hover:shadow-glow flex flex-col justify-between h-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/40"
+      onMouseMove={handleMouseMove}
+      className="group relative overflow-hidden bg-bg border border-borderSoft rounded-xl p-6 transition-all duration-300 hover:bg-surface hover:border-primary/45 hover:shadow-glow flex flex-col justify-between h-full text-left cursor-pointer focus:outline-none focus:ring-2 focus:ring-primary/40"
     >
+      {/* Glow, следующий за курсором */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
+        style={{
+          background:
+            "radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(61, 139, 255, 0.13), transparent 45%)"
+        }}
+      />
       <div>
         {/* Category Badge */}
         <div className="flex items-center justify-between mb-4">
@@ -54,7 +71,7 @@ export default function ProjectCard({ project, onClick }) {
           {project.stack.map((tech, index) => (
             <span
               key={index}
-              className="text-xs bg-primary/10 text-primary-bright px-2 py-1 rounded border border-primary/20"
+              className="font-mono text-xs bg-primary/10 text-primary-bright px-2 py-1 rounded border border-primary/20"
             >
               {isPlaceholder(tech) ? t("portfolio.clarify") : tech}
             </span>

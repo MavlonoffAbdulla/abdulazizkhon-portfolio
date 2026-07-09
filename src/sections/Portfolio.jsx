@@ -5,6 +5,7 @@ import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
 
 import useScrollReveal from "../hooks/useScrollReveal";
+import SectionNumber from "../components/SectionNumber";
 
 export default function Portfolio() {
   const { t } = useTranslation();
@@ -26,10 +27,11 @@ export default function Portfolio() {
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-8">
+          <SectionNumber value="03" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("portfolio.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-primary-bright mx-auto rounded-full shadow-glow"></div>
+          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] mx-auto rounded-full shadow-glow"></div>
         </div>
 
         {/* Filter Buttons */}

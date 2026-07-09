@@ -6,6 +6,7 @@ import Phone from "lucide-react/dist/esm/icons/phone";
 import { contacts } from "../data/contacts";
 
 import useScrollReveal from "../hooks/useScrollReveal";
+import SectionNumber from "../components/SectionNumber";
 
 export default function Contact() {
   const { t } = useTranslation();
@@ -78,10 +79,11 @@ export default function Contact() {
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-16">
+          <SectionNumber value="05" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("contact.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-primary-bright mx-auto rounded-full shadow-glow"></div>
+          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] mx-auto rounded-full shadow-glow"></div>
           <p className="max-w-xl mx-auto text-muted text-base mt-6">
             {t("contact.text")}
           </p>

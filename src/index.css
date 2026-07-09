@@ -11,6 +11,39 @@
   }
 }
 
+/* Gradient Accent Text with Shimmer (hero accent word, stats) */
+@keyframes shimmer {
+  to {
+    background-position: 200% center;
+  }
+}
+
+.text-gradient {
+  background-image: linear-gradient(120deg, #2e7cf6 0%, #5ea2ff 50%, #7dd3fc 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+  animation: shimmer 6s linear infinite;
+}
+
+/* Blinking Caret for Typewriter Effect */
+@keyframes caretBlink {
+  50% {
+    opacity: 0;
+  }
+}
+
+.typed-caret {
+  display: inline-block;
+  width: 3px;
+  height: 1.15em;
+  border-radius: 2px;
+  background: #5ea2ff;
+  vertical-align: text-bottom;
+  animation: caretBlink 1s steps(2) infinite;
+}
+
 /* Infinite Floating and Glowing Animation for Mobile Logo */
 @keyframes floatAndGlow {
   0% {
@@ -63,6 +96,12 @@
 
 /* Accessibility: respect prefers-reduced-motion and display statically */
 @media (prefers-reduced-motion: reduce) {
+  .text-gradient {
+    animation: none !important;
+  }
+  .typed-caret {
+    animation: none !important;
+  }
   .animate-float-glow {
     animation: none !important;
     transform: none !important;

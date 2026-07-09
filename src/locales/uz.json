@@ -9,6 +9,8 @@
   },
   "hero": {
     "title": "Biznesni avtomatlashtirish",
+    "rolePrefix": "Men yarataman:",
+    "roles": ["ERP/CRM tizimlar", "Telegram botlar", "AI integratsiyalar", "hujjatlar avtomatizatsiyasi"],
     "subtitle": "Chakana savdo, logistika va ishlab chiqarish uchun ERP/CRM tizimlari, Telegram botlar va AI integratsiyalari. Vazifani tahlil qilishdan tayyor yechimgacha.",
     "ctaPrimary": "Loyihalarni ko'rish",
     "ctaSecondary": "Telegram orqali yozish"

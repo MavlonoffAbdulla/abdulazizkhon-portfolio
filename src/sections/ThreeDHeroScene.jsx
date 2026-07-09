@@ -15,7 +15,11 @@ import {
   Points,
   PointsMaterial,
   TextureLoader,
-  DoubleSide
+  DoubleSide,
+  AdditiveBlending,
+  Sprite,
+  SpriteMaterial,
+  CanvasTexture
 } from "three";
 
 export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
@@ -82,6 +86,29 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     const logoMesh = new Mesh(logoGeo, logoMat);
     logoGroup.add(logoMesh);
 
+    // 4a-2. Пульсирующая аура за логотипом (спрайт с радиальным градиентом, additive)
+    const glowCanvas = document.createElement("canvas");
+    glowCanvas.width = glowCanvas.height = 256;
+    const glowCtx = glowCanvas.getContext("2d");
+    const glowGrad = glowCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
+    glowGrad.addColorStop(0, "rgba(61, 139, 255, 0.5)");
+    glowGrad.addColorStop(0.45, "rgba(46, 124, 246, 0.18)");
+    glowGrad.addColorStop(1, "rgba(46, 124, 246, 0)");
+    glowCtx.fillStyle = glowGrad;
+    glowCtx.fillRect(0, 0, 256, 256);
+
+    const glowTexture = new CanvasTexture(glowCanvas);
+    const glowMat = new SpriteMaterial({
+      map: glowTexture,
+      transparent: true,
+      blending: AdditiveBlending,
+      depthWrite: false
+    });
+    const glowSprite = new Sprite(glowMat);
+    glowSprite.scale.set(4.4, 4.4, 1);
+    glowSprite.position.z = -0.5;
+    logoGroup.add(glowSprite);
+
     // 4b. Add Orbital Rings
     const ring1Geo = new TorusGeometry(2.1, 0.015, 8, 64);
     const ring1Mat = new MeshBasicMaterial({
@@ -105,11 +132,28 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     ring2.rotation.y = -0.3;
     baseGroup.add(ring2);
 
+    // Третье тонкое кольцо — циановый край градиента бренда
+    const ring3Geo = new TorusGeometry(2.9, 0.01, 8, 64);
+    const ring3Mat = new MeshBasicMaterial({
+      color: 0x7dd3fc,
+      transparent: true,
+      opacity: 0.18
+    });
+    const ring3 = new Mesh(ring3Geo, ring3Mat);
+    ring3.rotation.x = 0.5;
+    ring3.rotation.y = -0.9;
+    baseGroup.add(ring3);
+
     // 4c. Add Floating Constellation Particles (Optimized count for mobile)
     const particleCount = isMobile ? 65 : 110;
     const positions = new Float32Array(particleCount * 3);
+    const colors = new Float32Array(particleCount * 3);
     const velocities = [];
     const initialPositions = [];
+
+    // Два цвета бренда: синий #3D8BFF (~70%) и циан #7DD3FC (~30%)
+    const blue = { r: 0.24, g: 0.545, b: 1.0 };
+    const cyan = { r: 0.49, g: 0.827, b: 0.988 };
 
     for (let i = 0; i < particleCount; i++) {
       const theta = Math.random() * 2.0 * Math.PI;
@@ -124,6 +168,11 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
+      const c = Math.random() < 0.3 ? cyan : blue;
+      colors[i * 3] = c.r;
+      colors[i * 3 + 1] = c.g;
+      colors[i * 3 + 2] = c.b;
+
       initialPositions.push({ x, y, z });
       velocities.push({
         speed: 0.1 + Math.random() * 0.4
@@ -132,13 +181,16 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
 
     const particleGeometry = new BufferGeometry();
     particleGeometry.setAttribute("position", new BufferAttribute(positions, 3));
+    particleGeometry.setAttribute("color", new BufferAttribute(colors, 3));
 
     const particleMaterial = new PointsMaterial({
-      color: 0x3d8bff, // glow
+      vertexColors: true,
       size: isMobile ? 0.07 : 0.06, // Slightly larger particles on mobile for visibility
       transparent: true,
-      opacity: 0.7,
-      sizeAttenuation: true
+      opacity: 0.75,
+      sizeAttenuation: true,
+      blending: AdditiveBlending, // светящиеся точки вместо плоских
+      depthWrite: false
     });
     const particles = new Points(particleGeometry, particleMaterial);
     baseGroup.add(particles);
@@ -160,6 +212,12 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
       // Rings opposite rotations (always active to provide 3D depth)
       ring1.rotation.z -= 0.003;
       ring2.rotation.z += 0.002;
+      ring3.rotation.z -= 0.0015;
+
+      // Дыхание ауры за логотипом
+      const glowPulse = 4.4 + Math.sin(time * 1.6) * 0.3;
+      glowSprite.scale.set(glowPulse, glowPulse, 1);
+      glowMat.opacity = 0.85 + Math.sin(time * 1.6) * 0.15;
 
       // Update Particles (drift)
       const posAttr = particleGeometry.attributes.position;
@@ -257,6 +315,10 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
       ring1Mat.dispose();
       ring2Geo.dispose();
       ring2Mat.dispose();
+      ring3Geo.dispose();
+      ring3Mat.dispose();
+      glowTexture.dispose();
+      glowMat.dispose();
       particleGeometry.dispose();
       particleMaterial.dispose();
       renderer.dispose();

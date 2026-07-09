@@ -18,7 +18,8 @@ export default {
         glowStrong: "0 0 40px rgba(61, 139, 255, 0.4)"
       },
       fontFamily: {
-        sans: ["Inter", "Manrope", "system-ui", "sans-serif"]
+        sans: ["Inter", "Manrope", "system-ui", "sans-serif"],
+        mono: ["JetBrains Mono", "ui-monospace", "SFMono-Regular", "monospace"]
       }
     }
   },

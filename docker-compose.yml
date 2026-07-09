@@ -9,5 +9,5 @@ services:
     environment:
       - TELEGRAM_BOT_TOKEN=8961024375:AAF36dkRNCxdmNfANxBdU-dx6JTPFo93pKo
       - TELEGRAM_CHAT_ID=5073300049
-      - PUBLIC_URL=https://4c2d1a5a17ca81c9-84-54-72-54.serveousercontent.com
+      - PUBLIC_URL=https://85382f70369ab12b-84-54-72-54.serveousercontent.com
     restart: always
