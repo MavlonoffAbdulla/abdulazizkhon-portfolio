@@ -48,6 +48,17 @@ if (fs.readFileSync(projectsPath, "utf8").trim() === "[]" && fs.existsSync(seedP
   console.log("[seed] Seeded projects.json from seed data");
 }
 
+const contactsPath = path.join(dataDir, "contacts.json");
+if (!fs.existsSync(contactsPath)) {
+  const defaultContacts = {
+    telegramUsername: "Athletic_A",
+    email: "abdulazizmavlonxonov@gmail.com",
+    phone: "+998911772609"
+  };
+  fs.writeFileSync(contactsPath, JSON.stringify(defaultContacts, null, 2), "utf8");
+  console.log("[seed] Seeded default contacts.json");
+}
+
 // --- Analytics flat-file storage (lives in data/ volume, survives rebuilds) ---
 const analyticsPath = path.join(dataDir, "analytics.json");
 
