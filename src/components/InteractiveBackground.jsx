@@ -8,28 +8,51 @@ export default function InteractiveBackground() {
     const canvas = canvasRef.current;
     if (!canvas) return;
 
+    // При reduced-motion не анимируем — статичный circuit-паттерн уже есть
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+
     const ctx = canvas.getContext("2d");
     let animationFrameId;
+    let running = true;
     let particles = [];
     const particleCount = window.innerWidth < 768 ? 40 : 80;
 
-    // Get current theme color from CSS variables
-    const getThemeColor = () => {
+    // Цвет из CSS-переменной темы: там RGB-триплет ("94 162 255"),
+    // конвертируем в валидный для canvas "rgb(94, 162, 255)"
+    const readThemeColor = () => {
       try {
-        return getComputedStyle(document.documentElement)
+        const raw = getComputedStyle(document.documentElement)
           .getPropertyValue("--color-primary-bright")
-          .trim() || "#2e7cf6";
+          .trim();
+        if (/^\d+\s+\d+\s+\d+$/.test(raw)) {
+          return `rgb(${raw.split(/\s+/).join(", ")})`;
+        }
+        return raw || "#5ea2ff";
       } catch {
-        return "#2e7cf6";
+        return "#5ea2ff";
       }
     };
 
-    // Resize handler
+    // Кэшируем цвет и обновляем только при смене темы (ThemeSwitcher
+    // пишет переменные в style атрибут <html>)
+    let themeColor = readThemeColor();
+    const themeObserver = new MutationObserver(() => {
+      themeColor = readThemeColor();
+    });
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["style"]
+    });
+
+    // Resize handler (start объявлен ниже — вызывается только из слушателя)
     const resizeCanvas = () => {
       const rect = canvas.parentElement.getBoundingClientRect();
       canvas.width = rect.width;
       canvas.height = rect.height;
       initParticles();
+      // После смены размеров перезапускаем цикл, если он был остановлен
+      // (например, наблюдатель успел выключить его при нулевом вьюпорте)
+      if (canvas.width > 0 && !document.hidden) start();
     };
 
     // Initialize particles
@@ -162,20 +185,41 @@ export default function InteractiveBackground() {
     };
 
     const loop = () => {
+      if (!running) return;
       ctx.clearRect(0, 0, canvas.width, canvas.height);
-      const color = getThemeColor();
 
       // Update and draw particles
       particles.forEach((p) => {
         p.update(mouseRef.current);
-        p.draw(ctx, color);
+        p.draw(ctx, themeColor);
       });
 
       // Draw connections
-      drawConnections(color);
+      drawConnections(themeColor);
 
       animationFrameId = requestAnimationFrame(loop);
     };
+
+    // Пауза, когда hero вне вьюпорта или вкладка скрыта — не жжём GPU зря
+    const start = () => {
+      if (!running) {
+        running = true;
+        loop();
+      }
+    };
+    const stop = () => {
+      running = false;
+      cancelAnimationFrame(animationFrameId);
+    };
+
+    const visObserver = new IntersectionObserver(
+      ([entry]) => (entry.isIntersecting ? start() : stop()),
+      { threshold: 0.05 }
+    );
+    visObserver.observe(canvas);
+
+    const handleVisibility = () => (document.hidden ? stop() : start());
+    document.addEventListener("visibilitychange", handleVisibility);
 
     // Start
     resizeCanvas();
@@ -183,7 +227,10 @@ export default function InteractiveBackground() {
     loop();
 
     return () => {
-      cancelAnimationFrame(animationFrameId);
+      stop();
+      themeObserver.disconnect();
+      visObserver.disconnect();
+      document.removeEventListener("visibilitychange", handleVisibility);
       window.removeEventListener("resize", resizeCanvas);
       parent.removeEventListener("mousemove", handleMouseMove);
       parent.removeEventListener("mouseleave", handleMouseLeave);
