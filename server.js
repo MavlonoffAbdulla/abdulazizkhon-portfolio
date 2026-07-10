@@ -466,6 +466,34 @@ app.post("/api/upload", verifyAdmin, upload.single("file"), (req, res) => {
   res.json({ success: true, path: relativePath });
 });
 
+// 6. Get contacts
+app.get("/api/contacts", (req, res) => {
+  try {
+    const dataPath = path.join(__dirname, "data", "contacts.json");
+    if (!fs.existsSync(dataPath)) {
+      return res.json({});
+    }
+    const raw = fs.readFileSync(dataPath, "utf8");
+    res.json(JSON.parse(raw));
+  } catch (err) {
+    console.error("Error reading contacts.json:", err);
+    res.status(500).json({ error: "Failed to read contacts" });
+  }
+});
+
+// 7. Save/Update contacts
+app.post("/api/contacts", verifyAdmin, (req, res) => {
+  try {
+    const newContacts = req.body;
+    const dataPath = path.join(__dirname, "data", "contacts.json");
+    fs.writeFileSync(dataPath, JSON.stringify(newContacts, null, 2), "utf8");
+    res.json({ success: true, contacts: newContacts });
+  } catch (err) {
+    console.error("Error saving contacts:", err);
+    res.status(500).json({ error: "Failed to save contacts" });
+  }
+});
+
 // Fallback all SPA routing back to index.html
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "dist", "index.html"));
