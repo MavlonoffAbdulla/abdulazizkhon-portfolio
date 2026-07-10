@@ -4,6 +4,7 @@ import useContacts from "../hooks/useContacts";
 import StaticWatermark from "../components/StaticWatermark";
 import useTypewriter from "../hooks/useTypewriter";
 import useMagnetic from "../hooks/useMagnetic";
+import InteractiveBackground from "../components/InteractiveBackground";
 
 // Lazy load 3D scene to keep it out of the main bundle
 const ThreeDHeroScene = React.lazy(() => import("./ThreeDHeroScene"));
@@ -111,6 +112,9 @@ export default function Hero() {
           <rect width="100%" height="100%" fill="url(#circuit)" />
         </svg>
       </div>
+
+      {/* Interactive Background Canvas */}
+      <InteractiveBackground />
 
       {/* Desktop/Tablet Background: 3D Scene or Watermark */}
       {!isMobile && (
