@@ -17,13 +17,44 @@ export default function useContacts() {
       .catch(() => {});
   }, []);
 
-  const telegramUsername =
-    (remote && remote.telegramUsername) || staticContacts.telegramUsername;
+  const sanitizeTelegram = (username) => {
+    if (!username) return "";
+    let clean = String(username).trim();
+    clean = clean.replace(/^@/, "");
+    clean = clean.replace(/^https?:\/\/t\.me\//i, "");
+    clean = clean.replace(/^t\.me\//i, "");
+    clean = clean.split(/[/?#]/)[0];
+    return clean;
+  };
+
+  const sanitizeEmail = (email) => {
+    if (!email) return "";
+    let clean = String(email).trim();
+    clean = clean.replace(/^mailto:/i, "");
+    return clean;
+  };
+
+  const sanitizePhone = (phone) => {
+    if (!phone) return "";
+    let clean = String(phone).trim();
+    clean = clean.replace(/^tel:/i, "");
+    clean = clean.replace(/[^\d+]/g, "");
+    return clean;
+  };
+
+  const rawTelegram = (remote && remote.telegramUsername) || staticContacts.telegramUsername;
+  const telegramUsername = sanitizeTelegram(rawTelegram);
+
+  const rawEmail = (remote && remote.email) || staticContacts.email;
+  const email = sanitizeEmail(rawEmail);
+
+  const rawPhone = (remote && remote.phone) || staticContacts.phone;
+  const phone = sanitizePhone(rawPhone);
 
   return {
     telegramUsername,
-    email: (remote && remote.email) || staticContacts.email,
-    phone: (remote && remote.phone) || staticContacts.phone,
+    email,
+    phone,
     telegramDeepLink: (text = "") =>
       `https://t.me/${telegramUsername}${text ? `?text=${encodeURIComponent(text)}` : ""}`
   };
