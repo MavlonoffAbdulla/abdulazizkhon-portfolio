@@ -48,14 +48,14 @@ if (fs.readFileSync(projectsPath, "utf8").trim() === "[]" && fs.existsSync(seedP
   console.log("[seed] Seeded projects.json from seed data");
 }
 
-const contactsPath = path.join(dataDir, "contacts.json");
-if (!fs.existsSync(contactsPath)) {
+const seedContactsPath = path.join(dataDir, "contacts.json");
+if (!fs.existsSync(seedContactsPath)) {
   const defaultContacts = {
     telegramUsername: "Athletic_A",
     email: "abdulazizmavlonxonov@gmail.com",
     phone: "+998911772609"
   };
-  fs.writeFileSync(contactsPath, JSON.stringify(defaultContacts, null, 2), "utf8");
+  fs.writeFileSync(seedContactsPath, JSON.stringify(defaultContacts, null, 2), "utf8");
   console.log("[seed] Seeded default contacts.json");
 }
 
