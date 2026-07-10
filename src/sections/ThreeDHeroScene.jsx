@@ -22,6 +22,16 @@ import {
   CanvasTexture
 } from "three";
 
+// Читает CSS-переменную с RGB-триплетом ("94 162 255") в THREE.Color
+function tripletToRGB(name) {
+  const raw = getComputedStyle(document.documentElement).getPropertyValue(name).trim();
+  const parts = raw.split(/\s+/).map(Number);
+  if (parts.length === 3 && parts.every((n) => !isNaN(n))) {
+    return { r: parts[0] / 255, g: parts[1] / 255, b: parts[2] / 255 };
+  }
+  return null;
+}
+
 export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
   const containerRef = useRef(null);
   const canvasRef = useRef(null);
@@ -73,11 +83,14 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     const logoGroup = new Group();
     baseGroup.add(logoGroup);
 
-    const texture = new TextureLoader().load("/logo-transparent.png");
+    // PNG логотипа — белый силуэт, поэтому цвет материала (умножение)
+    // окрашивает его в чистый цвет активной темы; syncTheme обновляет цвет
+    const logoTexture = new TextureLoader().load("/logo-transparent.png");
     const logoSize = isMobile ? 2.2 : 2.4;
     const logoGeo = new PlaneGeometry(logoSize, logoSize);
     const logoMat = new MeshBasicMaterial({
-      map: texture,
+      map: logoTexture,
+      color: 0x2e7cf6,
       transparent: true,
       alphaTest: 0.1,
       depthWrite: true,
@@ -91,15 +104,16 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     glowCanvas.width = glowCanvas.height = 256;
     const glowCtx = glowCanvas.getContext("2d");
     const glowGrad = glowCtx.createRadialGradient(128, 128, 0, 128, 128, 128);
-    glowGrad.addColorStop(0, "rgba(61, 139, 255, 0.5)");
-    glowGrad.addColorStop(0.45, "rgba(46, 124, 246, 0.18)");
-    glowGrad.addColorStop(1, "rgba(46, 124, 246, 0)");
+    glowGrad.addColorStop(0, "rgba(255, 255, 255, 0.5)");
+    glowGrad.addColorStop(0.45, "rgba(255, 255, 255, 0.18)");
+    glowGrad.addColorStop(1, "rgba(255, 255, 255, 0)");
     glowCtx.fillStyle = glowGrad;
     glowCtx.fillRect(0, 0, 256, 256);
 
     const glowTexture = new CanvasTexture(glowCanvas);
     const glowMat = new SpriteMaterial({
       map: glowTexture,
+      color: 0x3d8bff,
       transparent: true,
       blending: AdditiveBlending,
       depthWrite: false
@@ -150,8 +164,9 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     const colors = new Float32Array(particleCount * 3);
     const velocities = [];
     const initialPositions = [];
+    const accentFlags = []; // ~30% частиц — светлый край градиента, остальные — основной цвет
 
-    // Два цвета бренда: синий #3D8BFF (~70%) и циан #7DD3FC (~30%)
+    // Стартовые цвета (тема blue); syncTheme перекрасит под активную тему
     const blue = { r: 0.24, g: 0.545, b: 1.0 };
     const cyan = { r: 0.49, g: 0.827, b: 0.988 };
 
@@ -168,7 +183,9 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
       positions[i * 3 + 1] = y;
       positions[i * 3 + 2] = z;
 
-      const c = Math.random() < 0.3 ? cyan : blue;
+      const isAccent = Math.random() < 0.3;
+      accentFlags.push(isAccent);
+      const c = isAccent ? cyan : blue;
       colors[i * 3] = c.r;
       colors[i * 3 + 1] = c.g;
       colors[i * 3 + 2] = c.b;
@@ -195,6 +212,39 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     const particles = new Points(particleGeometry, particleMaterial);
     baseGroup.add(particles);
 
+    // --- Синхронизация цветов сцены с активной темой (CSS-переменные из :root) ---
+    const syncTheme = () => {
+      const primary = tripletToRGB("--color-primary");
+      const bright = tripletToRGB("--color-primary-bright");
+      const glow = tripletToRGB("--color-glow");
+      const gradEnd = tripletToRGB("--color-grad-end");
+      if (!primary || !bright) return;
+
+      logoMat.color.setRGB(primary.r, primary.g, primary.b);
+      ring1Mat.color.setRGB(bright.r, bright.g, bright.b);
+      ring2Mat.color.setRGB(primary.r, primary.g, primary.b);
+      if (gradEnd) ring3Mat.color.setRGB(gradEnd.r, gradEnd.g, gradEnd.b);
+      if (glow) glowMat.color.setRGB(glow.r, glow.g, glow.b);
+      dirLight.color.setRGB(bright.r, bright.g, bright.b);
+
+      // Перекраска вертексных цветов частиц под тему
+      const colorAttr = particleGeometry.attributes.color;
+      const accent = gradEnd || bright;
+      for (let i = 0; i < particleCount; i++) {
+        const c = accentFlags[i] ? accent : bright;
+        colorAttr.setXYZ(i, c.r, c.g, c.b);
+      }
+      colorAttr.needsUpdate = true;
+    };
+
+    // ThemeSwitcher пишет переменные в style атрибут <html> — следим за ним
+    const themeObserver = new MutationObserver(syncTheme);
+    themeObserver.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["style"]
+    });
+    syncTheme();
+
     // 5. Animation Loop
     let animationFrameId;
     let isIntersecting = true;
@@ -202,7 +252,6 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
 
     const tick = () => {
       if (!isIntersecting) return;
-
       time += 0.005;
 
       // Gentle swaying float + sway rotation (logo stays visible, never turns paper-thin)
@@ -304,6 +353,7 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
     // Cleanup
     return () => {
       observer.disconnect();
+      themeObserver.disconnect();
       cancelAnimationFrame(animationFrameId);
       window.removeEventListener("mousemove", handleMouseMove);
       window.removeEventListener("resize", handleResize);
@@ -311,6 +361,7 @@ export default function ThreeDHeroScene({ enableParallax, isMobile = false }) {
       // Dispose resources
       logoGeo.dispose();
       logoMat.dispose();
+      logoTexture.dispose();
       ring1Geo.dispose();
       ring1Mat.dispose();
       ring2Geo.dispose();

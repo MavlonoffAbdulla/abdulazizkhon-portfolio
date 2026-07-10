@@ -2,8 +2,14 @@ import { useTranslation } from "react-i18next";
 import useTilt from "../hooks/useTilt";
 
 export default function ProjectCard({ project, onClick }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const cardRef = useTilt();
+
+  const lang = i18n.language || "ru";
+  const localized = project[lang] || project.ru || {};
+  const title = localized.title || "";
+  const description = localized.description || "";
+  const result = localized.result || "";
 
   const isPlaceholder = (text) =>
     text &&
@@ -31,7 +37,7 @@ export default function ProjectCard({ project, onClick }) {
       role="button"
       tabIndex={0}
       aria-haspopup="dialog"
-      aria-label={t(`portfolio.projects.${project.id}.title`)}
+      aria-label={title}
       onClick={onClick}
       onKeyDown={handleKeyDown}
       onMouseMove={handleMouseMove}
@@ -43,7 +49,7 @@ export default function ProjectCard({ project, onClick }) {
         className="pointer-events-none absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity duration-500"
         style={{
           background:
-            "radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgba(61, 139, 255, 0.13), transparent 45%)"
+            "radial-gradient(420px circle at var(--mx, 50%) var(--my, 0%), rgb(var(--color-glow) / 0.13), transparent 45%)"
         }}
       />
       <div>
@@ -56,12 +62,12 @@ export default function ProjectCard({ project, onClick }) {
 
         {/* Title */}
         <h3 className="text-xl font-bold text-ink mb-2">
-          {t(`portfolio.projects.${project.id}.title`)}
+          {title}
         </h3>
 
         {/* Description */}
         <p className="text-muted text-sm leading-relaxed mb-6">
-          {t(`portfolio.projects.${project.id}.description`)}
+          {description}
         </p>
       </div>
 
@@ -85,12 +91,12 @@ export default function ProjectCard({ project, onClick }) {
           </span>
           <p
             className={`text-sm ${
-              isPlaceholder(t(`portfolio.projects.${project.id}.result`))
+              isPlaceholder(result)
                 ? "text-muted italic"
                 : "text-ink font-medium"
             }`}
           >
-            {t(`portfolio.projects.${project.id}.result`)}
+            {result}
           </p>
         </div>
       </div>

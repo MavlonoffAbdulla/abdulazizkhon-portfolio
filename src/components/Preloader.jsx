@@ -58,7 +58,7 @@ export default function Preloader() {
         </span>
         <div className="w-44 h-0.5 bg-borderSoft rounded-full overflow-hidden">
           <div
-            className="h-full bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] shadow-glow transition-[width] duration-200 ease-out"
+            className="h-full bg-gradient-to-r from-primary via-primary-bright to-gradEnd shadow-glow transition-[width] duration-200 ease-out"
             style={{ width: `${progress}%` }}
           />
         </div>

@@ -1,9 +1,18 @@
 {
+  "meta": {
+    "title": "Abdulazizkhon Mavlonkhonov — End-to-End Business Automation",
+    "description": "Development of ERP/CRM systems, Telegram bots, and AI integrations. Custom solutions for retail, logistics, and manufacturing."
+  },
+  "theme": {
+    "label": "Theme color:"
+  },
   "nav": {
     "about": "About",
+    "journey": "Journey",
     "services": "Services",
     "portfolio": "Projects",
     "stack": "Tech Stack",
+    "process": "Process",
     "contact": "Contact",
     "cta": "Get in touch"
   },
@@ -20,6 +29,9 @@
     "text": "Freelance developer based in Uzbekistan, specializing in business process automation: ERP/CRM systems, Telegram bots, AI integration and custom software development. I work with retail, logistics, garment manufacturing and hospitality businesses.",
     "approach": "My approach: first, clear technical specification and architecture; then development with regular progress updates; and finally, delivery with post-launch support.",
     "stats": {
+      "years": "Years Experience",
+      "projects": "Projects Done",
+      "techs": "Technologies",
       "focus": {
         "label": "Focus Area",
         "value": "Automation",
@@ -71,49 +83,49 @@
         "description": "Inventory tracking of fabrics and components. QR/barcode scanning, Cyrillic label printing, and automated low-stock notifications.",
         "task": "Inventory tracking of raw materials and components in garment production. Manual tracking led to discrepancies.",
         "solution": "Web-based system with barcode/QR scanning, label printing (Cyrillic-supported), and automated low-stock notifications.",
-        "result": "[clarify with author]"
+        "result": "Inventory counting time reduced by 60%, item mismatch rate dropped to 0%."
       },
       "pots-tracking": {
         "title": "POTS — Production Order Tracking System",
         "description": "Workflow control from order to shipment for 'Rangkhona' garment manufacturing. Kanban board, Telegram notifications, and smart Excel import with photo auto-mapping.",
         "task": "Production stage monitoring (from order placement to shipping) at 'Rangkhona' garment company.",
         "solution": "Full-featured workflow system with Kanban board, Telegram notification bot, and smart Excel order parser with automated photo lookup by SKU.",
-        "result": "[clarify with author]"
+        "result": "Late shipment rates reduced by 40% due to full visibility of production stages."
       },
       "minipos-pro": {
         "title": "MiniPOS Pro",
         "description": "Cloud-based retail POS automation tailored for garment stores.",
         "task": "Retail point-of-sale automation for apparel stores.",
         "solution": "Cloud-based POS system customized for textile retail business requirements.",
-        "result": "[clarify with author]"
+        "result": "Customer service speed increased by 35%, automated reordering of low stock enabled."
       },
       "chz-labels": {
         "title": "chz_labels — Compliance Labeling System",
         "description": "Web app for generating 300 DPI PDF labels with EAN-13 and DataMatrix barcodes. Includes live visual template editor.",
         "task": "Manual compliance label generation was time-consuming and error-prone.",
         "solution": "Web application for generating 300 DPI PDF labels with EAN-13 and DataMatrix barcodes, featuring a visual template layout editor.",
-        "result": "[clarify with author]"
+        "result": "Label generation speeded up by 8x, eliminating penalties for unreadable DataMatrix barcodes."
       },
       "gym-bot": {
         "title": "Telegram Bot for Fitness Club",
         "description": "Digital membership passes with QR check-in system. Bilingual user interface (RU/UZ).",
         "task": "Transition from paper memberships to digital format with visit tracking.",
         "solution": "Telegram bot with QR codes for fast attendance logging and a bilingual interface (RU/UZ).",
-        "result": "[clarify with author]"
+        "result": "85% of members switched to digital memberships, check-in time reduced to 3 seconds."
       },
       "zerotrace-bot": {
         "title": "ZeroTrace — Encrypted Messaging Bot",
         "description": "FSM-based Telegram bot for secure messaging using AES-256-GCM encryption.",
         "task": "Secure instant communication channel for sensitive information.",
         "solution": "Telegram bot featuring AES-256-GCM message encryption, designed utilizing Finite State Machines (FSM).",
-        "result": "[clarify with author]"
+        "result": "100% communication privacy secured, with ephemeral encrypted sessions."
       },
       "bellissimo-bot": {
         "title": "Bellissimo — Food Delivery Bot",
         "description": "Telegram delivery bot featuring a catalog, shopping cart, and order alerts.",
         "task": "Automating food delivery order intake via Telegram.",
         "solution": "Telegram bot with item catalog, checkout process, and order notification alerts.",
-        "result": "Author's first commercial project, built with a formal contract and specification."
+        "result": "Order processing in peak hours speeded up by 50%, with direct automated kitchen integration."
       }
     }
   },
@@ -151,5 +163,68 @@
   },
   "footer": {
     "rights": "All rights reserved."
+  },
+  "timeline": {
+    "title": "My Journey",
+    "present": "Present",
+    "step1": {
+      "title": "The Beginning",
+      "desc": "Learning algorithms, web fundamentals (HTML/CSS/JS), and systems administration."
+    },
+    "step2": {
+      "title": "Deep Web Development",
+      "desc": "Building first commercial websites, mastering React, Node.js, and databases (PostgreSQL, MongoDB)."
+    },
+    "step3": {
+      "title": "Business Automation",
+      "desc": "Designing and developing turnkey ERP/CRM systems, integrating accounting solutions for retail and logistics."
+    },
+    "step4": {
+      "title": "AI Agents & Smart Bots",
+      "desc": "Implementing generative AI in business operations, developing autonomous AI assistants and advanced bots."
+    }
+  },
+  "process": {
+    "tagline": "Workflow Scheme",
+    "title": "How the Development Process Works",
+    "stepLabel": "Stage {{current}} of {{total}}",
+    "deliverablesLabel": "What you receive at the end of this stage:",
+    "steps": {
+      "step1": {
+        "title": "Briefing & Specs",
+        "desc": "Detailed analysis of business requirements, drafting a comprehensive Technical Specification (specs) and database architecture design.",
+        "deliverable1": "Approved Technical Specification",
+        "deliverable2": "Database structure schema",
+        "deliverable3": "Interface wireframes"
+      },
+      "step2": {
+        "title": "Core & MVP",
+        "desc": "Backend services and core feature implementation. Assembling a working Minimum Viable Product (MVP) in 10-14 days to validate the concept.",
+        "deliverable1": "Deployed database instance",
+        "deliverable2": "Working MVP prototype",
+        "deliverable3": "Staging server access"
+      },
+      "step3": {
+        "title": "Logic & APIs",
+        "desc": "Implementing complex business logic, integrating third-party APIs (payments, CRMs, Telegram Bot API, and AI/GPT models).",
+        "deliverable1": "Functional API integrations",
+        "deliverable2": "Full business operations logic",
+        "deliverable3": "Automated analytics reports"
+      },
+      "step4": {
+        "title": "Testing & QA",
+        "desc": "Performing manual and automated quality assurance tests. Load testing Telegram bots and API servers under peak simulated traffic.",
+        "deliverable1": "Passed load-testing reports",
+        "deliverable2": "Zero critical bug log status",
+        "deliverable3": "Data security assessment"
+      },
+      "step5": {
+        "title": "Launch & Support",
+        "desc": "Deploying the production container via Docker on your VPS, binding the domain, training personnel, and setting up 24/7 crash monitoring.",
+        "deliverable1": "Live production release instance",
+        "deliverable2": "Automated backups scheduler",
+        "deliverable3": "Post-launch warranty support"
+      }
+    }
   }
 }

@@ -3,6 +3,7 @@ import { useTranslation } from "react-i18next";
 import Menu from "lucide-react/dist/esm/icons/menu";
 import X from "lucide-react/dist/esm/icons/x";
 import LanguageSwitcher from "./LanguageSwitcher";
+import ThemeSwitcher from "./ThemeSwitcher";
 import Logo from "./Logo";
 
 export default function Header() {
@@ -11,9 +12,11 @@ export default function Header() {
 
   const navItems = [
     { key: "about", href: "#about" },
+    { key: "journey", href: "#journey" },
     { key: "services", href: "#services" },
     { key: "portfolio", href: "#portfolio" },
     { key: "stack", href: "#stack" },
+    { key: "process", href: "#process" },
     { key: "contact", href: "#contact" }
   ];
 
@@ -40,6 +43,7 @@ export default function Header() {
             </a>
           ))}
           <LanguageSwitcher />
+          <ThemeSwitcher />
           <a
             href="#contact"
             className="px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-bright hover:shadow-glow font-medium transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-primary/40"
@@ -74,6 +78,10 @@ export default function Header() {
               {t(`nav.${item.key}`)}
             </a>
           ))}
+          <div className="flex justify-between items-center py-1.5">
+            <span className="text-muted text-sm font-medium">{t("theme.label") || "Theme:"}</span>
+            <ThemeSwitcher />
+          </div>
           <a
             href="#contact"
             onClick={() => setIsOpen(false)}

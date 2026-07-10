@@ -1,0 +1,223 @@
+[
+  {
+    "id": "warehouse-system",
+    "category": "erp",
+    "stack": [
+      "React",
+      "Vite",
+      "FastAPI",
+      "PostgreSQL",
+      "Docker Compose"
+    ],
+    "screenshots": [
+      "/img/screenshots/1783594953699-459587659.png",
+      "/img/screenshots/1783595043756-47212664.png",
+      "/img/screenshots/1783595054438-334829232.png",
+      "/img/screenshots/1783595125520-955109319.png"
+    ],
+    "ru": {
+      "title": "Warehouse-система для швейного производства",
+      "description": "Учёт складских остатков и комплектующих на производстве. Штрихкод/QR-сканирование, печать этикеток с поддержкой кириллицы, автоматические уведомления о низких остатках.",
+      "task": "Учёт складских остатков и комплектующих на производстве, ручной учёт приводил к ошибкам.",
+      "solution": "Веб-система с штрихкод/QR-сканированием, печатью этикеток (с поддержкой кириллицы) и автоматическими уведомлениями о низких остатках.",
+      "result": "Время инвентаризации сократилось на 60%, количество пересортицы снижено до нуля."
+    },
+    "uz": {
+      "title": "Tikuvchilik ishlab chiqarishi uchun Warehouse tizimi",
+      "description": "Ombor qoldiqlari va butlovchi qismlar hisobi. Shtrix-kod/QR skanerlash, kirill alifbosini qo'llab-quvvatlaydigan etiketka chop etish, qoldiqlar kamayganda avtomatik bildirishnomalar.",
+      "task": "Ishlab chiqarishda xomashyo va butlovchi qismlar hisobi, qo'lda hisob-kitob qilish xatoliklarga olib kelardi.",
+      "solution": "Shtrix-kod/QR-kod skanerlash, etiketka chop etish (kirill alifbosi bilan) va qoldiqlar kamayganda avtomatik ogohlantirishga ega veb-tizim.",
+      "result": "Inventarizatsiya vaqti 60% ga qisqardi, qayta hisoblashdagi xatoliklar nolga tushirildi."
+    },
+    "en": {
+      "title": "Warehouse Management System for Apparel Production",
+      "description": "Inventory tracking of fabrics and components. QR/barcode scanning, Cyrillic label printing, and automated low-stock notifications.",
+      "task": "Inventory tracking of raw materials and components in garment production. Manual tracking led to discrepancies.",
+      "solution": "Web-based system with barcode/QR scanning, label printing (Cyrillic-supported), and automated low-stock notifications.",
+      "result": "Inventory counting time reduced by 60%, item mismatch rate dropped to 0%."
+    }
+  },
+  {
+    "id": "pots-tracking",
+    "category": "erp",
+    "stack": [
+      "FastAPI",
+      "PostgreSQL",
+      "React/Vite",
+      "Telegram Bot"
+    ],
+    "screenshots": [
+      "/img/screenshots/1783598351682-191608138.png",
+      "/img/screenshots/1783598356776-511529326.png",
+      "/img/screenshots/1783598364560-192124070.png",
+      "/img/screenshots/1783598370864-237887092.png",
+      "/img/screenshots/1783598375918-835087758.png",
+      "/img/screenshots/1783598383401-218305572.png",
+      "/img/screenshots/1783598388355-288598617.png",
+      "/img/screenshots/1783598393722-841457565.png"
+    ],
+    "ru": {
+      "title": "POTS — система отслеживания производственных заказов",
+      "description": "Контроль этапов производства одежды от заказа до отгрузки. Kanban-доска, Telegram-уведомления, умный парсинг Excel-файлов заказов с автоподбором фото по артикулу.",
+      "task": "Контроль этапов производства одежды (от заказа до отгрузки) в компании «Рангхона».",
+      "solution": "Полнофункциональная система с Kanban-доской, Telegram-ботом для уведомлений и умным парсингом Excel-файлов заказов с автоподбором фото по артикулу.",
+      "result": "Снижен процент просрочек отгрузки на 40% за счет прозрачности этапов производства."
+    },
+    "uz": {
+      "title": "POTS — ishlab chiqarish buyurtmalarini kuzatish tizimi",
+      "description": "Kiyim ishlab chiqarish bosqichlarini nazorat qilish (buyurtmadan tortib jo'natishgacha). Kanban doskasi, Telegram bildirishnomalari va buyurtma Excel fayllarini aqlli tahlil qilish.",
+      "task": "«Rangxo'na» kiyim-kechak korxonasida ishlab chiqarish bosqichlarini (buyurtmadan tortib jo'natishgacha) nazorat qilish.",
+      "solution": "Kanban doskasi, bildirishnomalar uchun Telegram boti va buyurtma Excel fayllarini tahlil qilib, rasm bilan moslashtiradigan aqlli tizim.",
+      "result": "Ishlab chiqarish bosqichlari shaffofligi evaziga yetkazib berish kechikishi 40% ga kamaydi."
+    },
+    "en": {
+      "title": "POTS — Production Order Tracking System",
+      "description": "Workflow control from order to shipment for 'Rangkhona' garment manufacturing. Kanban board, Telegram notifications, and smart Excel import with photo auto-mapping.",
+      "task": "Production stage monitoring (from order placement to shipping) at 'Rangkhona' garment company.",
+      "solution": "Full-featured workflow system with Kanban board, Telegram notification bot, and smart Excel order parser with automated photo lookup by SKU.",
+      "result": "Late shipment rates reduced by 40% due to full visibility of production stages."
+    }
+  },
+  {
+    "id": "minipos-pro",
+    "category": "erp",
+    "stack": [
+      "React Native",
+      "FastAPI",
+      "SQLite",
+      "Docker"
+    ],
+    "screenshots": [
+      "/img/screenshots/1783595272840-425510383.png",
+      "/img/screenshots/1783595298361-990850854.png",
+      "/img/screenshots/1783595351462-612640983.png",
+      "/img/screenshots/1783595413082-42507818.png",
+      "/img/screenshots/1783595420509-851032890.png",
+      "/img/screenshots/1783595468488-488425217.png",
+      "/img/screenshots/1783595509076-662264830.png",
+      "/img/screenshots/1783595517374-430434791.png",
+      "/img/screenshots/1783595523008-868096602.png"
+    ],
+    "ru": {
+      "title": "MiniPOS Pro",
+      "description": "Облачная автоматизация розничной торговли для магазинов одежды.",
+      "task": "Автоматизация розничной торговли для магазинов одежды.",
+      "solution": "Облачная POS-система под задачи текстильной розницы.",
+      "result": "Скорость обслуживания покупателей выросла на 35%, настроен автозаказ остатков."
+    },
+    "uz": {
+      "title": "MiniPOS Pro",
+      "description": "Kiyim-kechak do'konlari uchun chakana savdoni avtomatlashtirish bulutli tizimi.",
+      "task": "Kiyim-kechak do'konlari uchun chakana savdoni avtomatlashtirish.",
+      "solution": "To'qimachilik chakana savdo sohasiga moslashtirilgan bulutli POS-tizimi.",
+      "result": "Mijozlarga xizmat ko'rsatish tezligi 35% ga oshdi, qoldiqlar uchun avtomatik buyurtma sozlandi."
+    },
+    "en": {
+      "title": "MiniPOS Pro",
+      "description": "Cloud-based retail POS automation tailored for garment stores.",
+      "task": "Retail point-of-sale automation for apparel stores.",
+      "solution": "Cloud-based POS system customized for textile retail business requirements.",
+      "result": "Customer service speed increased by 35%, automated reordering of low stock enabled."
+    }
+  },
+  {
+    "id": "chz-labels",
+    "category": "automation",
+    "stack": [
+      "FastAPI",
+      "React/Vite",
+      "Tailwind CSS"
+    ],
+    "screenshots": [
+      "/img/screenshots/1783595697200-648691665.png",
+      "/img/screenshots/1783595715762-423770795.png"
+    ],
+    "ru": {
+      "title": "chz_labels — маркировка «Честный знак»",
+      "description": "Веб-приложение для генерации PDF-этикеток (300 DPI) со штрихкодами EAN-13 и DataMatrix, с визуальным редактором шаблонов и live-превью.",
+      "task": "Ручная генерация маркировки занимала много времени и содержала ошибки.",
+      "solution": "Веб-приложение для генерации PDF-этикеток (300 DPI) со штрихкодами EAN-13 и DataMatrix, с визуальным редактором шаблонов.",
+      "result": "Генерация этикеток ускорилась в 8 раз, исключены штрафы за нечитаемые DataMatrix."
+    },
+    "uz": {
+      "title": "chz_labels — «Halol belgi» markirovkasi",
+      "description": "EAN-13 va DataMatrix shtrix-kodlari bilan PDF-etiketkalar (300 DPI) yaratish uchun veb-ilova. Shablonlar vizual muharriri va jonli ko'rish.",
+      "task": "Markirovkani qo'lda yaratish ko'p vaqt olar va xatolarga to'la edi.",
+      "solution": "EAN-13 va DataMatrix shtrix-kodlari bilan PDF-etiketkalar (300 DPI) yaratadigan, shablonlarning vizual muharririga ega veb-ilova.",
+      "result": "Yorliqlar generatsiyasi 8 barobar tezlashdi, o'qib bo'lmaydigan DataMatrix uchun jarimalar butunlay bartaraf etildi."
+    },
+    "en": {
+      "title": "chz_labels — Compliance Labeling System",
+      "description": "Web app for generating 300 DPI PDF labels with EAN-13 and DataMatrix barcodes. Includes live visual template editor.",
+      "task": "Manual compliance label generation was time-consuming and error-prone.",
+      "solution": "Web application for generating 300 DPI PDF labels with EAN-13 and DataMatrix barcodes, featuring a visual template layout editor.",
+      "result": "Label generation speeded up by 8x, eliminating penalties for unreadable DataMatrix barcodes."
+    }
+  },
+  {
+    "id": "gym-bot",
+    "category": "bots",
+    "stack": [
+      "aiogram",
+      "Python"
+    ],
+    "screenshots": [
+      "/img/screenshots/gym.png"
+    ],
+    "ru": {
+      "title": "Telegram-бот для фитнес-клуба",
+      "description": "Перевод бумажных абонементов в цифровой формат с QR-учётом посещений, двуязычный интерфейс (RU/UZ).",
+      "task": "Перевод бумажных абонементов в цифровой формат с учётом посещений.",
+      "solution": "Telegram-бот с QR-кодами для быстрой отметки визитов, двуязычный интерфейс (RU/UZ).",
+      "result": "85% клиентов перешли на цифровые абонементы, время регистрации визита снизилось до 3 секунд."
+    },
+    "uz": {
+      "title": "Fitness klub uchun Telegram bot",
+      "description": "Qog'oz abonementlarni raqamli formatga o'tkazish, tashriflarni QR-kod orqali hisobga olish. Ikki tilli interfeys (RU/UZ).",
+      "task": "Qog'oz abonementlarni raqamli formatga o'tkazish va tashriflar hisobini yuritish.",
+      "solution": "Tashriflarni tezkor qayd etish uchun QR-kodli Telegram bot, ikki tilli interfeys (RU/UZ).",
+      "result": "Mijozlarning 85% raqamli abonementlarga o'tdi, tashrifni qayd etish vaqti 3 soniyagacha qisqardi."
+    },
+    "en": {
+      "title": "Telegram Bot for Fitness Club",
+      "description": "Digital membership passes with QR check-in system. Bilingual user interface (RU/UZ).",
+      "task": "Transition from paper memberships to digital format with visit tracking.",
+      "solution": "Telegram bot with QR codes for fast attendance logging and a bilingual interface (RU/UZ).",
+      "result": "85% of members switched to digital memberships, check-in time reduced to 3 seconds."
+    }
+  },
+  {
+    "id": "zerotrace-bot",
+    "category": "bots",
+    "stack": [
+      "aiogram 3.x",
+      "AES-256-GCM"
+    ],
+    "screenshots": [
+      "/img/screenshots/1783595751783-164285526.png",
+      "/img/screenshots/1783595802914-952472056.png",
+      "/img/screenshots/1783595824576-302111099.png"
+    ],
+    "ru": {
+      "title": "ZeroTrace — бот шифрования сообщений",
+      "description": "Telegram-бот для защищённой переписки с шифрованием AES-256-GCM, построен на конечных автоматах (FSM).",
+      "task": "Защищённая переписка для чувствительных данных.",
+      "solution": "Telegram-бот с шифрованием AES-256-GCM, построен на конечных автоматах (FSM).",
+      "result": "Обеспечена 100% защита конфиденциальности переписок, время жизни сессий зашифровано."
+    },
+    "uz": {
+      "title": "ZeroTrace — xabarlarni shifrlash boti",
+      "description": "AES-256-GCM shifrlash tizimiga ega, yakuniy avtomatlar (FSM) asosida qurilgan himoyalangan yozishmalar boti.",
+      "task": "Nozik ma'lumotlar uchun xavfsiz yozishmalar kanali.",
+      "solution": "AES-256-GCM shifrlash usuli bilan ishlaydigan, yakuniy avtomatlar (FSM) asosida qurilgan Telegram bot.",
+      "result": "Yozishmalar maxfiyligi 100% himoyalandi, sessiyalar muddati to'liq shifrlangan."
+    },
+    "en": {
+      "title": "ZeroTrace — Encrypted Messaging Bot",
+      "description": "FSM-based Telegram bot for secure messaging using AES-256-GCM encryption.",
+      "task": "Secure instant communication channel for sensitive information.",
+      "solution": "Telegram bot featuring AES-256-GCM message encryption, designed utilizing Finite State Machines (FSM).",
+      "result": "100% communication privacy secured, with ephemeral encrypted sessions."
+    }
+  }
+]

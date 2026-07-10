@@ -1,8 +1,9 @@
 import React, { useState, useEffect, Suspense } from "react";
 import { useTranslation } from "react-i18next";
-import { contacts } from "../data/contacts";
+import useContacts from "../hooks/useContacts";
 import StaticWatermark from "../components/StaticWatermark";
 import useTypewriter from "../hooks/useTypewriter";
+import useMagnetic from "../hooks/useMagnetic";
 
 // Lazy load 3D scene to keep it out of the main bundle
 const ThreeDHeroScene = React.lazy(() => import("./ThreeDHeroScene"));
@@ -21,6 +22,9 @@ function isWebGLAvailable() {
 
 export default function Hero() {
   const { t } = useTranslation();
+  const contacts = useContacts();
+  const primaryBtnRef = useMagnetic(0.25);
+  const secondaryBtnRef = useMagnetic(0.25);
 
   // Последнее слово заголовка — градиентный акцент (см. DESIGN.md: акцентные слова в заголовках)
   const heroTitle = t("hero.title");
@@ -167,6 +171,7 @@ export default function Hero() {
           <div className="flex flex-col sm:flex-row items-center justify-center lg:justify-start gap-4 w-full sm:w-auto">
             <a
               href="#portfolio"
+              ref={primaryBtnRef}
               className="w-full sm:w-auto px-8 py-4 bg-primary text-white rounded-lg hover:bg-primary-bright hover:shadow-glow font-semibold text-base transition-all duration-200 text-center"
             >
               {t("hero.ctaPrimary")}
@@ -175,6 +180,7 @@ export default function Hero() {
               href={contacts.telegramDeepLink(t("hero.title"))}
               target="_blank"
               rel="noopener noreferrer"
+              ref={secondaryBtnRef}
               className="w-full sm:w-auto px-8 py-4 border border-primary text-primary-bright hover:bg-primary/10 rounded-lg font-semibold text-base transition-all duration-200 text-center"
             >
               {t("hero.ctaSecondary")}

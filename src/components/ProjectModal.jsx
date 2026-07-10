@@ -4,9 +4,16 @@ import X from "lucide-react/dist/esm/icons/x";
 import Maximize2 from "lucide-react/dist/esm/icons/maximize-2";
 
 export default function ProjectModal({ project, onClose }) {
-  const { t } = useTranslation();
+  const { t, i18n } = useTranslation();
   const modalRef = useRef(null);
   const closeButtonRef = useRef(null);
+
+  const lang = i18n.language || "ru";
+  const localized = project[lang] || project.ru || {};
+  const title = localized.title || "";
+  const task = localized.task || "";
+  const solution = localized.solution || "";
+  const result = localized.result || "";
 
   const [activeScreenshot, setActiveScreenshot] = useState(
     project.screenshots && project.screenshots.length > 0 ? project.screenshots[0] : null
@@ -116,7 +123,7 @@ export default function ProjectModal({ project, onClose }) {
             id="modal-title"
             className="text-2xl md:text-3xl font-extrabold text-ink tracking-tight mb-6 pr-8 text-left"
           >
-            {t(`portfolio.projects.${project.id}.title`)}
+            {title}
           </h2>
 
           {/* Screenshot Carousel/Viewer */}
@@ -129,7 +136,7 @@ export default function ProjectModal({ project, onClose }) {
               >
                 <img
                   src={activeScreenshot}
-                  alt={t(`portfolio.projects.${project.id}.title`)}
+                  alt={title}
                   className="w-full h-auto object-contain max-h-[280px] md:max-h-[340px] hover:scale-[1.015] transition-all duration-300"
                 />
                 {/* Zoom Badge overlay */}
@@ -167,7 +174,7 @@ export default function ProjectModal({ project, onClose }) {
                 {t("portfolio.taskLabel")}
               </h4>
               <p className="text-ink text-base leading-relaxed">
-                {t(`portfolio.projects.${project.id}.task`)}
+                {task}
               </p>
             </div>
 
@@ -177,7 +184,7 @@ export default function ProjectModal({ project, onClose }) {
                 {t("portfolio.solutionLabel")}
               </h4>
               <p className="text-ink text-base leading-relaxed">
-                {t(`portfolio.projects.${project.id}.solution`)}
+                {solution}
               </p>
             </div>
 
@@ -206,12 +213,12 @@ export default function ProjectModal({ project, onClose }) {
                 </h4>
                 <p
                   className={`text-base leading-relaxed ${
-                    isPlaceholder(t(`portfolio.projects.${project.id}.result`))
+                    isPlaceholder(result)
                       ? "text-muted italic"
                       : "text-ink font-medium"
                   }`}
                 >
-                  {t(`portfolio.projects.${project.id}.result`)}
+                  {result}
                 </p>
               </div>
             </div>

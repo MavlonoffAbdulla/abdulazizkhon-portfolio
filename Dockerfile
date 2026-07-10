@@ -20,9 +20,10 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci --only=production
 
-# Copy build output from Stage 1 and the server script
+# Copy build output from Stage 1, the server script and seed data
 COPY --from=build /app/dist ./dist
 COPY server.js ./
+COPY seed ./seed
 
 EXPOSE 80
 

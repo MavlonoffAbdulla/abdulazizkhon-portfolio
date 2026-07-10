@@ -1,14 +1,40 @@
+import { useState, useEffect, useRef } from "react";
 import { useTranslation } from "react-i18next";
 import useScrollReveal from "../hooks/useScrollReveal";
 import SectionNumber from "../components/SectionNumber";
+import useCountUp from "../hooks/useCountUp";
 
 export default function About() {
   const { t } = useTranslation();
   const revealRef = useScrollReveal();
+  
+  const [isVisible, setIsVisible] = useState(false);
+  const sectionRef = useRef(null);
+
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
+    if (sectionRef.current) {
+      observer.observe(sectionRef.current);
+    }
+    return () => observer.disconnect();
+  }, []);
+
+  const years = useCountUp(3, 1200, isVisible);
+  const projects = useCountUp(10, 1500, isVisible);
+  const techs = useCountUp(15, 1800, isVisible);
 
   return (
     <section
       id="about"
+      ref={sectionRef}
       className="bg-bgAlt py-16 md:py-24 scroll-mt-20 border-t border-borderSoft"
     >
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
@@ -30,6 +56,34 @@ export default function About() {
                   "Мой подход: сначала — чёткое техническое задание и архитектура, затем — разработка с регулярными демонстрациями прогресса, и в конце — сдача с поддержкой."
                 )}
               </p>
+            </div>
+
+            {/* Animated Metrics Row */}
+            <div className="grid grid-cols-3 gap-6 mt-8 pt-8 border-t border-borderSoft/50 text-left">
+              <div>
+                <div className="text-3xl md:text-4xl font-extrabold text-primary-bright tracking-tight mb-1">
+                  {years}+
+                </div>
+                <div className="text-muted text-xs uppercase tracking-wider font-bold">
+                  {t("about.stats.years")}
+                </div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-extrabold text-primary-bright tracking-tight mb-1">
+                  {projects}+
+                </div>
+                <div className="text-muted text-xs uppercase tracking-wider font-bold">
+                  {t("about.stats.projects")}
+                </div>
+              </div>
+              <div>
+                <div className="text-3xl md:text-4xl font-extrabold text-primary-bright tracking-tight mb-1">
+                  {techs}+
+                </div>
+                <div className="text-muted text-xs uppercase tracking-wider font-bold">
+                  {t("about.stats.techs")}
+                </div>
+              </div>
             </div>
           </div>
 

@@ -3,14 +3,17 @@ import { useTranslation } from "react-i18next";
 import Send from "lucide-react/dist/esm/icons/send";
 import Mail from "lucide-react/dist/esm/icons/mail";
 import Phone from "lucide-react/dist/esm/icons/phone";
-import { contacts } from "../data/contacts";
+import useContacts from "../hooks/useContacts";
 
 import useScrollReveal from "../hooks/useScrollReveal";
 import SectionNumber from "../components/SectionNumber";
+import useMagnetic from "../hooks/useMagnetic";
 
 export default function Contact() {
   const { t } = useTranslation();
+  const contacts = useContacts();
   const revealRef = useScrollReveal();
+  const submitBtnRef = useMagnetic(0.25);
 
   const [formData, setFormData] = useState({ name: "", contact: "", message: "" });
   const [status, setStatus] = useState("idle"); // 'idle' | 'loading' | 'success' | 'error'
@@ -79,11 +82,11 @@ export default function Contact() {
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-16">
-          <SectionNumber value="05" />
+          <SectionNumber value="07" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("contact.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] mx-auto rounded-full shadow-glow"></div>
+          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-gradEnd mx-auto rounded-full shadow-glow"></div>
           <p className="max-w-xl mx-auto text-muted text-base mt-6">
             {t("contact.text")}
           </p>
@@ -194,6 +197,7 @@ export default function Contact() {
 
               <button
                 type="submit"
+                ref={submitBtnRef}
                 disabled={status === "loading"}
                 className="w-full py-4 bg-primary text-white rounded-lg hover:bg-primary-bright hover:shadow-glow font-semibold text-base transition-all duration-200 text-center disabled:opacity-50"
               >

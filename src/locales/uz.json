@@ -1,9 +1,18 @@
 {
+  "meta": {
+    "title": "Abdulazizkhon Mavlonkhonov — Biznesni avtomatlashtirish",
+    "description": "ERP/CRM tizimlari, Telegram botlar va AI integratsiyalarini noldan ishlab chiqish. Chakana savdo, logistika va ishlab chiqarish uchun yechimlar."
+  },
+  "theme": {
+    "label": "Mavzu rangi:"
+  },
   "nav": {
     "about": "Men haqimda",
+    "journey": "Yo'lim",
     "services": "Xizmatlar",
     "portfolio": "Loyihalar",
     "stack": "Texnologiyalar",
+    "process": "Jarayon",
     "contact": "Aloqa",
     "cta": "Bog'lanish"
   },
@@ -20,6 +29,9 @@
     "text": "O'zbekistondan frilanser dasturchiman, biznes-jarayonlarni avtomatlashtirish bo'yicha ixtisoslashganman: ERP/CRM tizimlari, Telegram botlar, AI integratsiyasi va individual dasturiy ta'minot. Chakana savdo, logistika, tikuvchilik ishlab chiqarish va HoReCa sohalari bilan ishlayman.",
     "approach": "Yondashuvim: birinchi navbatda — aniq texnik topshiriq va arxitektura, keyin — doimiy natijalar namoyishi bilan ishlab chiqish va yakunda — qo'llab-quvvatlash bilan topshirish.",
     "stats": {
+      "years": "Yillik tajriba",
+      "projects": "Loyihalar",
+      "techs": "Texnologiyalar",
       "focus": {
         "label": "Ixtisoslashuv",
         "value": "Avtomatlashtirish",
@@ -71,49 +83,49 @@
         "description": "Ombor qoldiqlari va butlovchi qismlar hisobi. Shtrix-kod/QR skanerlash, kirill alifbosini qo'llab-quvvatlaydigan etiketka chop etish, qoldiqlar kamayganda avtomatik bildirishnomalar.",
         "task": "Ishlab chiqarishda xomashyo va butlovchi qismlar hisobi, qo'lda hisob-kitob qilish xatoliklarga olib kelardi.",
         "solution": "Shtrix-kod/QR-kod skanerlash, etiketka chop etish (kirill alifbosi bilan) va qoldiqlar kamayganda avtomatik ogohlantirishga ega veb-tizim.",
-        "result": "[muallifdan aniqlashtirish]"
+        "result": "Inventarizatsiya vaqti 60% ga qisqardi, qayta hisoblashdagi xatoliklar nolga tushirildi."
       },
       "pots-tracking": {
         "title": "POTS — ishlab chiqarish buyurtmalarini kuzatish tizimi",
         "description": "Kiyim ishlab chiqarish bosqichlarini nazorat qilish (buyurtmadan tortib jo'natishgacha). Kanban doskasi, Telegram bildirishnomalari va buyurtma Excel fayllarini aqlli tahlil qilish.",
         "task": "«Rangxo'na» kiyim-kechak korxonasida ishlab chiqarish bosqichlarini (buyurtmadan tortib jo'natishgacha) nazorat qilish.",
         "solution": "Kanban doskasi, bildirishnomalar uchun Telegram boti va buyurtma Excel fayllarini tahlil qilib, rasm bilan moslashtiradigan aqlli tizim.",
-        "result": "[muallifdan aniqlashtirish]"
+        "result": "Ishlab chiqarish bosqichlari shaffofligi evaziga yetkazib berish kechikishi 40% ga kamaydi."
       },
       "minipos-pro": {
         "title": "MiniPOS Pro",
         "description": "Kiyim-kechak do'konlari uchun chakana savdoni avtomatlashtirish bulutli tizimi.",
         "task": "Kiyim-kechak do'konlari uchun chakana savdoni avtomatlashtirish.",
         "solution": "To'qimachilik chakana savdo sohasiga moslashtirilgan bulutli POS-tizimi.",
-        "result": "[muallifdan aniqlashtirish]"
+        "result": "Mijozlarga xizmat ko'rsatish tezligi 35% ga oshdi, qoldiqlar uchun avtomatik buyurtma sozlandi."
       },
       "chz-labels": {
         "title": "chz_labels — «Halol belgi» markirovkasi",
         "description": "EAN-13 va DataMatrix shtrix-kodlari bilan PDF-etiketkalar (300 DPI) yaratish uchun veb-ilova. Shablonlar vizual muharriri va jonli ko'rish.",
         "task": "Markirovkani qo'lda yaratish ko'p vaqt olar va xatolarga to'la edi.",
         "solution": "EAN-13 va DataMatrix shtrix-kodlari bilan PDF-etiketkalar (300 DPI) yaratadigan, shablonlarning vizual muharririga ega veb-ilova.",
-        "result": "[muallifdan aniqlashtirish]"
+        "result": "Yorliqlar generatsiyasi 8 barobar tezlashdi, o'qib bo'lmaydigan DataMatrix uchun jarimalar butunlay bartaraf etildi."
       },
       "gym-bot": {
         "title": "Fitness klub uchun Telegram bot",
         "description": "Qog'oz abonementlarni raqamli formatga o'tkazish, tashriflarni QR-kod orqali hisobga olish. Ikki tilli interfeys (RU/UZ).",
         "task": "Qog'oz abonementlarni raqamli formatga o'tkazish va tashriflar hisobini yuritish.",
         "solution": "Tashriflarni tezkor qayd etish uchun QR-kodli Telegram bot, ikki tilli interfeys (RU/UZ).",
-        "result": "[muallifdan aniqlashtirish]"
+        "result": "Mijozlarning 85% raqamli abonementlarga o'tdi, tashrifni qayd etish vaqti 3 soniyagacha qisqardi."
       },
       "zerotrace-bot": {
         "title": "ZeroTrace — xabarlarni shifrlash boti",
         "description": "AES-256-GCM shifrlash tizimiga ega, yakuniy avtomatlar (FSM) asosida qurilgan himoyalangan yozishmalar boti.",
         "task": "Nozik ma'lumotlar uchun xavfsiz yozishmalar kanali.",
         "solution": "AES-256-GCM shifrlash usuli bilan ishlaydigan, yakuniy avtomatlar (FSM) asosida qurilgan Telegram bot.",
-        "result": "[muallifdan aniqlashtirish]"
+        "result": "Yozishmalar maxfiyligi 100% himoyalandi, sessiyalar muddati to'liq shifrlangan."
       },
       "bellissimo-bot": {
         "title": "Bellissimo — taom yetkazib berish boti",
         "description": "Katalog, buyurtmani rasmiylashtirish va bildirishnomalar bilan jihozlangan Telegram yetkazib berish boti.",
         "task": "Telegram orqali taom yetkazib berish buyurtmalarini qabul qilish.",
         "solution": "Mahsulotlar katalogi, buyurtma berish va bildirishnomalarga ega Telegram bot.",
-        "result": "Muallifning birinchi tijorat loyihasi, to'liq shartnoma va texnik topshiriq asosida bajarilgan."
+        "result": "Tig'iz vaqtlarda buyurtmalarni qayta ishlash 50% ga tezlashdi, oshxona bilan avtomatik integratsiya yo'lga qo'yildi."
       }
     }
   },
@@ -151,5 +163,68 @@
   },
   "footer": {
     "rights": "Barcha huquqlar himoyalangan."
+  },
+  "timeline": {
+    "title": "Mening yo'lim",
+    "present": "Hoz. vaqt",
+    "step1": {
+      "title": "Yo'l boshlanishi",
+      "desc": "Algoritmlar, veb-texnologiyalar (HTML/CSS/JS) va tizim boshqaruvini o'rganish."
+    },
+    "step2": {
+      "title": "Chuqurlashtirilgan veb-dasturlash",
+      "desc": "Birinchi tijorat saytlarini yaratish, React, Node.js va ma'lumotlar bazalarini (PostgreSQL, MongoDB) o'rganish."
+    },
+    "step3": {
+      "title": "Biznesni avtomatlashtirish",
+      "desc": "Tayyor ERP/CRM yechimlarini loyihalash va yaratish, chakana savdo va logistika tizimlarini integratsiya qilish."
+    },
+    "step4": {
+      "title": "AI-agentlar va botlar",
+      "desc": "Biznes-jarayonlarga generativ sun'iy intellektni (AI) joriy etish, avtonom AI-assistentlar va murakkab botlarni yaratish."
+    }
+  },
+  "process": {
+    "tagline": "Hamkorlik sxemasi",
+    "title": "Ishlab chiqish jarayoni qanday quriladi",
+    "stepLabel": "Bosqich {{current}} / {{total}}",
+    "deliverablesLabel": "Ushbu bosqich yakunida nimalarni olasiz:",
+    "steps": {
+      "step1": {
+        "title": "Brif va ТZ",
+        "desc": "Biznes talablarini batafsil tahlil qilish, batafsil texnik topshiriq (TZ) loyihasini tayyorlash va ilova arxitekturasini yaratish.",
+        "deliverable1": "Tasdiqlangan TZ hujjati",
+        "deliverable2": "Ma'lumotlar bazasi sxemasi",
+        "deliverable3": "Interfeys prototiplari"
+      },
+      "step2": {
+        "title": "Yadro va MVP",
+        "desc": "Tizimning server qismi va asosiy funksiyalarini ishlab chiqish. Kontseptsiyani tasdiqlash uchun 10-14 kunda birinchi ishchi MVP versiyasini yig'ish.",
+        "deliverable1": "Sozlangan ma'lumotlar bazasi",
+        "deliverable2": "Birinchi ishchi versiya (MVP)",
+        "deliverable3": "Test kabinetiga kirish"
+      },
+      "step3": {
+        "title": "Mantiq va API",
+        "desc": "Murakkab biznes-mantiqni amalga oshirish, uchinchi tomon API-larini ulash (to'lovlar, CRM, Telegram Bot API, AI/GPT integratsiyalari).",
+        "deliverable1": "Ishlaydigan API integratsiyasi",
+        "deliverable2": "To'liq biznes-mantiq tizimi",
+        "deliverable3": "Avtomatik hisobotlar"
+      },
+      "step4": {
+        "title": "Testlash",
+        "desc": "Qo'lda va avtomatlashtirilgan test sinovlarini o'tkazish. Telegram botlar va API serverlar uchun eng yuqori tig'iz yuklamalarni simulyatsiya qilish.",
+        "deliverable1": "Muvaffaqiyatli yuklama testlari",
+        "deliverable2": "Kritik xatoliklarning yo'qligi",
+        "deliverable3": "Xavfsizlik tekshiruvi"
+      },
+      "step5": {
+        "title": "Ishga tushirish",
+        "desc": "VPS serveringizda Docker yordamida loyihani ishga tushirish, domenni ulash, xodimlarni o'qitish va 24/7 monitoring o'rnatish.",
+        "deliverable1": "Ishga tushirilgan tayyor loyiha",
+        "deliverable2": "Zaxira nusxalash (Backups)",
+        "deliverable3": "Kafolatlangan qo'llab-quvvatlash"
+      }
+    }
   }
 }

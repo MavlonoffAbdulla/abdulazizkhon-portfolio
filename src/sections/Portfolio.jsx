@@ -1,17 +1,25 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { useTranslation } from "react-i18next";
-import { projects } from "../data/projects";
 import ProjectCard from "../components/ProjectCard";
 import ProjectModal from "../components/ProjectModal";
 
 import useScrollReveal from "../hooks/useScrollReveal";
 import SectionNumber from "../components/SectionNumber";
+import { track } from "../utils/analytics";
 
 export default function Portfolio() {
   const { t } = useTranslation();
+  const [projects, setProjects] = useState([]);
   const [activeFilter, setActiveFilter] = useState("all");
   const [selectedProject, setSelectedProject] = useState(null);
   const revealRef = useScrollReveal();
+
+  useEffect(() => {
+    fetch("/api/projects")
+      .then((res) => res.json())
+      .then((data) => setProjects(data))
+      .catch((err) => console.error("Error loading projects:", err));
+  }, []);
 
   const filters = ["all", "erp", "bots", "ai", "automation"];
 
@@ -27,11 +35,11 @@ export default function Portfolio() {
       <div ref={revealRef} className="max-w-6xl mx-auto px-4">
         {/* Title */}
         <div className="text-center mb-8">
-          <SectionNumber value="03" />
+          <SectionNumber value="04" />
           <h2 className="text-3xl md:text-4xl font-extrabold text-ink tracking-tight mb-4">
             {t("portfolio.title")}
           </h2>
-          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-[#7DD3FC] mx-auto rounded-full shadow-glow"></div>
+          <div className="w-12 h-1.5 bg-gradient-to-r from-primary via-primary-bright to-gradEnd mx-auto rounded-full shadow-glow"></div>
         </div>
 
         {/* Filter Buttons */}
@@ -60,7 +68,10 @@ export default function Portfolio() {
             <ProjectCard
               key={project.id}
               project={project}
-              onClick={() => setSelectedProject(project)}
+              onClick={() => {
+                track("project_view", { projectId: project.id });
+                setSelectedProject(project);
+              }}
             />
           ))}
         </div>
