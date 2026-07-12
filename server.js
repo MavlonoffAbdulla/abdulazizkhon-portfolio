@@ -260,6 +260,81 @@ app.post("/api/telegram-webhook", async (req, res) => {
     } catch (e) {
       console.error("Error sending welcome message inside webhook:", e);
     }
+  } else if (text === "/app") {
+    const appText = `💻 *Интерактивное 3D-портфолио*\n\nНажмите на кнопку ниже, чтобы запустить интерактивное приложение прямо в Telegram.`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: appText,
+          parse_mode: "Markdown",
+          reply_markup: {
+            inline_keyboard: [
+              [
+                {
+                  text: "💻 Открыть портфолио",
+                  web_app: { url: publicUrl }
+                }
+              ]
+            ]
+          }
+        })
+      });
+    } catch (e) {
+      console.error("Error sending app message inside webhook:", e);
+    }
+  } else if (text === "/contacts") {
+    const contacts = readContacts();
+    const telegram = contacts.telegramUsername ? contacts.telegramUsername.replace("@", "") : "Athletic_A";
+    const email = contacts.email || "abdulazizmavlonxonov@gmail.com";
+    const phone = contacts.phone || "+998911772609";
+
+    const contactsText = `📞 *Контакты разработчика Абдулазизхона (A.M.):*\n\n` +
+      `✈️ *Telegram:* [${telegram}](https://t.me/${telegram})\n` +
+      `📧 *Email:* [${email}](mailto:${email})\n` +
+      `📞 *Телефон:* [${phone}](tel:${phone.replace(/\s+/g, "")})\n\n` +
+      `Вы также можете запустить 3D-портфолио и отправить быструю заявку!`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: contactsText,
+          parse_mode: "Markdown",
+          disable_web_page_preview: true
+        })
+      });
+    } catch (e) {
+      console.error("Error sending contacts message inside webhook:", e);
+    }
+  } else if (text === "/help") {
+    const helpText = `⚙️ *Справка по боту-ассистенту:*\n\n` +
+      `🤖 Этот бот помогает вам взаимодействовать с портфолио разработчика *Абдулазизхона (A.M.)*.\n\n` +
+      `*Доступные команды:* \n` +
+      `• /start — Запустить приветствие бота\n` +
+      `• /app — Открыть интерактивное 3D-портфолио\n` +
+      `• /contacts — Показать прямые контактные данные\n` +
+      `• /help — Показать эту справку\n\n` +
+      `Вы можете нажать синюю кнопку *Портфолио* в левом нижнем углу, чтобы запустить Mini App в любой момент!`;
+
+    try {
+      await fetch(`https://api.telegram.org/bot${botToken}/sendMessage`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          chat_id: chatId,
+          text: helpText,
+          parse_mode: "Markdown"
+        })
+      });
+    } catch (e) {
+      console.error("Error sending help message inside webhook:", e);
+    }
   } else if (adminChatId && chatId.toString() !== adminChatId.toString()) {
     // Forward direct chat messages to the admin so they can reply
     const forwardText = `✉️ *Новое сообщение от пользователя в боте*:\n\n👤 *Имя*: ${from.first_name} ${from.last_name || ""}\n🔗 *Юзернейм*: ${from.username ? `@${from.username}` : "нет"}\n🆔 *ID*: \`${from.id}\`\n\n💬 *Сообщение*: ${text}`;
