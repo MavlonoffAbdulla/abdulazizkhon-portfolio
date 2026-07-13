@@ -110,35 +110,67 @@ const storage = multer.diskStorage({
 });
 const upload = multer({ storage });
 
-// --- Admin auth: логин/пароль хранятся хэшированными в data/admin.json ---
-// Пока файл не создан (пароль ещё не меняли из админки) — дефолт:
-// логин "admin", пароль из ADMIN_PASSWORD (docker-compose) или "admin123".
-const adminAuthPath = path.join(dataDir, "admin.json");
+// --- Admin auth: логин/пароль хранятся в data/users.json ---
+const usersPath = path.join(dataDir, "users.json");
 
 function hashPassword(password, salt) {
   return crypto.scryptSync(String(password), String(salt), 64).toString("hex");
 }
 
-function readAdminAuth() {
+function readUsers() {
   try {
-    if (fs.existsSync(adminAuthPath)) {
-      const stored = JSON.parse(fs.readFileSync(adminAuthPath, "utf8"));
-      if (stored.username && stored.salt && stored.passwordHash) return stored;
+    if (fs.existsSync(usersPath)) {
+      return JSON.parse(fs.readFileSync(usersPath, "utf8"));
     }
   } catch (err) {
-    console.error("Error reading admin.json:", err);
+    console.error("Error reading users.json:", err);
   }
-  const salt = "am-default-salt";
-  const password = process.env.ADMIN_PASSWORD || "admin123";
-  return { username: "admin", salt, passwordHash: hashPassword(password, salt) };
+  
+  // Попытка миграции старого admin.json
+  const oldAdminPath = path.join(dataDir, "admin.json");
+  let defaultUser;
+  if (fs.existsSync(oldAdminPath)) {
+    try {
+      const stored = JSON.parse(fs.readFileSync(oldAdminPath, "utf8"));
+      if (stored.username && stored.salt && stored.passwordHash) {
+        defaultUser = {
+          username: stored.username,
+          salt: stored.salt,
+          passwordHash: stored.passwordHash,
+          isSuperAdmin: true
+        };
+      }
+      fs.unlinkSync(oldAdminPath);
+      console.log("[migration] Migrated admin.json to users.json");
+    } catch (err) {
+      console.error("Error migrating admin.json:", err);
+    }
+  }
+  
+  if (!defaultUser) {
+    const salt = crypto.randomBytes(16).toString("hex");
+    const password = process.env.ADMIN_PASSWORD || "admin123";
+    defaultUser = {
+      username: "admin",
+      salt,
+      passwordHash: hashPassword(password, salt),
+      isSuperAdmin: true
+    };
+  }
+
+  const users = [defaultUser];
+  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2), "utf8");
+  return users;
 }
 
-// Токен — производный от учётных данных: смена логина/пароля
-// автоматически аннулирует все старые сессии
-function adminToken(auth) {
+function writeUsers(users) {
+  fs.writeFileSync(usersPath, JSON.stringify(users, null, 2), "utf8");
+}
+
+function adminToken(user) {
   return crypto
     .createHash("sha256")
-    .update(`${auth.username}:${auth.passwordHash}`)
+    .update(`${user.username}:${user.passwordHash}`)
     .digest("hex");
 }
 
@@ -148,14 +180,32 @@ function safeEqual(a, b) {
   return bufA.length === bufB.length && crypto.timingSafeEqual(bufA, bufB);
 }
 
+// Find user by token
+function findUserByToken(authHeader) {
+  if (!authHeader || !authHeader.startsWith("Bearer ")) return null;
+  const token = authHeader.substring(7);
+  const users = readUsers();
+  return users.find(u => safeEqual(adminToken(u), token));
+}
+
 // Admin verification middleware
 const verifyAdmin = (req, res, next) => {
-  const authHeader = req.headers.authorization || "";
-  const expected = `Bearer ${adminToken(readAdminAuth())}`;
-  if (safeEqual(authHeader, expected)) {
+  const user = findUserByToken(req.headers.authorization);
+  if (user) {
+    req.user = user;
     return next();
   }
   res.status(403).json({ error: "Unauthorized" });
+};
+
+// Super Admin verification middleware
+const verifySuperAdmin = (req, res, next) => {
+  verifyAdmin(req, res, () => {
+    if (req.user && req.user.isSuperAdmin) {
+      return next();
+    }
+    res.status(403).json({ error: "Only super admin can perform this action" });
+  });
 };
 
 // Загруженные скриншоты — из persistent volume (приоритет над dist)
@@ -442,45 +492,193 @@ app.get("/api/admin/stats", verifyAdmin, (req, res) => {
 // 1. Admin login verification (логин + пароль)
 app.post("/api/admin/login", (req, res) => {
   const { username, password } = req.body || {};
-  const auth = readAdminAuth();
-  const okUser = safeEqual(String(username || "admin").trim(), auth.username);
-  const okPass = safeEqual(hashPassword(password || "", auth.salt), auth.passwordHash);
-  if (okUser && okPass) {
-    return res.json({ success: true, token: adminToken(auth), username: auth.username });
+  const users = readUsers();
+  const user = users.find(u => safeEqual(String(username || "admin").trim(), u.username));
+  if (!user) {
+    return res.status(401).json({ error: "Неверный логин или пароль" });
+  }
+  const okPass = safeEqual(hashPassword(password || "", user.salt), user.passwordHash);
+  if (okPass) {
+    return res.json({ 
+      success: true, 
+      token: adminToken(user), 
+      username: user.username,
+      isSuperAdmin: !!user.isSuperAdmin 
+    });
   }
   res.status(401).json({ error: "Неверный логин или пароль" });
 });
 
 // 1a. Проверка живости токена (при открытии админки)
 app.get("/api/admin/verify", verifyAdmin, (req, res) => {
-  res.json({ ok: true, username: readAdminAuth().username });
+  res.json({ ok: true, username: req.user.username, isSuperAdmin: !!req.user.isSuperAdmin });
 });
 
-// 1b. Смена логина и/или пароля администратора
+// 1b. Смена логина и/или пароля текущего пользователя
 app.post("/api/admin/credentials", verifyAdmin, (req, res) => {
   try {
     const { currentPassword, newUsername, newPassword } = req.body || {};
-    const auth = readAdminAuth();
+    const users = readUsers();
+    const userIndex = users.findIndex(u => u.username === req.user.username);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: "Пользователь не найден" });
+    }
+    const user = users[userIndex];
 
-    if (!safeEqual(hashPassword(currentPassword || "", auth.salt), auth.passwordHash)) {
+    if (!safeEqual(hashPassword(currentPassword || "", user.salt), user.passwordHash)) {
       return res.status(401).json({ error: "Текущий пароль неверен" });
     }
 
-    const username = String(newUsername || auth.username).trim().slice(0, 32) || auth.username;
+    const username = String(newUsername || user.username).trim().slice(0, 32) || user.username;
+    
+    // Проверка уникальности логина при смене
+    if (username !== user.username && users.some(u => u.username === username)) {
+      return res.status(400).json({ error: "Имя пользователя уже занято" });
+    }
+
     if (newPassword && String(newPassword).length < 6) {
       return res.status(400).json({ error: "Новый пароль должен быть не короче 6 символов" });
     }
 
-    // Если новый пароль не задан — перехэшируем текущий (он подтверждён выше)
     const effectivePassword = newPassword ? String(newPassword) : String(currentPassword);
     const salt = crypto.randomBytes(16).toString("hex");
-    const newAuth = { username, salt, passwordHash: hashPassword(effectivePassword, salt) };
+    
+    users[userIndex] = {
+      ...user,
+      username,
+      salt,
+      passwordHash: hashPassword(effectivePassword, salt)
+    };
 
-    fs.writeFileSync(adminAuthPath, JSON.stringify(newAuth, null, 2), "utf8");
-    res.json({ success: true, token: adminToken(newAuth), username });
+    writeUsers(users);
+    res.json({ success: true, token: adminToken(users[userIndex]), username });
   } catch (err) {
-    console.error("Error updating admin credentials:", err);
+    console.error("Error updating credentials:", err);
     res.status(500).json({ error: "Failed to update credentials" });
+  }
+});
+
+// 1c. Управление пользователями (только для Super Admin)
+app.get("/api/admin/users", verifySuperAdmin, (req, res) => {
+  try {
+    const users = readUsers();
+    const safeUsers = users.map(u => ({ username: u.username, isSuperAdmin: !!u.isSuperAdmin }));
+    res.json(safeUsers);
+  } catch (err) {
+    console.error("Error fetching users:", err);
+    res.status(500).json({ error: "Failed to fetch users" });
+  }
+});
+
+app.post("/api/admin/users", verifySuperAdmin, (req, res) => {
+  try {
+    const { username, password, isSuperAdmin } = req.body || {};
+    const cleanUsername = String(username || "").trim().slice(0, 32);
+    if (!cleanUsername) {
+      return res.status(400).json({ error: "Имя пользователя обязательно" });
+    }
+    if (!password || String(password).length < 6) {
+      return res.status(400).json({ error: "Пароль должен быть не короче 6 символов" });
+    }
+
+    const users = readUsers();
+    if (users.some(u => u.username === cleanUsername)) {
+      return res.status(400).json({ error: "Имя пользователя уже занято" });
+    }
+
+    const salt = crypto.randomBytes(16).toString("hex");
+    const newUser = {
+      username: cleanUsername,
+      salt,
+      passwordHash: hashPassword(password, salt),
+      isSuperAdmin: !!isSuperAdmin
+    };
+
+    users.push(newUser);
+    writeUsers(users);
+    res.json({ success: true, user: { username: cleanUsername, isSuperAdmin: !!isSuperAdmin } });
+  } catch (err) {
+    console.error("Error creating user:", err);
+    res.status(500).json({ error: "Failed to create user" });
+  }
+});
+
+app.put("/api/admin/users/:username", verifySuperAdmin, (req, res) => {
+  try {
+    const { username } = req.params;
+    const { newUsername, password, isSuperAdmin } = req.body || {};
+    
+    const users = readUsers();
+    const userIndex = users.findIndex(u => u.username === username);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: "Пользователь не найден" });
+    }
+    const user = users[userIndex];
+
+    const cleanNewUsername = String(newUsername || username).trim().slice(0, 32);
+    if (!cleanNewUsername) {
+      return res.status(400).json({ error: "Имя пользователя обязательно" });
+    }
+
+    if (cleanNewUsername !== username && users.some(u => u.username === cleanNewUsername)) {
+      return res.status(400).json({ error: "Имя пользователя уже занято" });
+    }
+
+    // Если меняется роль супер-администратора на обычного
+    if (user.isSuperAdmin && !isSuperAdmin) {
+      const otherSuperAdmins = users.filter((u, idx) => idx !== userIndex && u.isSuperAdmin);
+      if (otherSuperAdmins.length === 0) {
+        return res.status(400).json({ error: "Нельзя лишить прав последнего главного администратора" });
+      }
+    }
+
+    const salt = password ? crypto.randomBytes(16).toString("hex") : user.salt;
+    const passwordHash = password ? hashPassword(password, salt) : user.passwordHash;
+
+    users[userIndex] = {
+      ...user,
+      username: cleanNewUsername,
+      salt,
+      passwordHash,
+      isSuperAdmin: !!isSuperAdmin
+    };
+
+    writeUsers(users);
+    res.json({ success: true, user: { username: cleanNewUsername, isSuperAdmin: !!isSuperAdmin } });
+  } catch (err) {
+    console.error("Error updating user:", err);
+    res.status(500).json({ error: "Failed to update user" });
+  }
+});
+
+app.delete("/api/admin/users/:username", verifySuperAdmin, (req, res) => {
+  try {
+    const { username } = req.params;
+    if (username === req.user.username) {
+      return res.status(400).json({ error: "Вы не можете удалить самого себя" });
+    }
+
+    const users = readUsers();
+    const userIndex = users.findIndex(u => u.username === username);
+    if (userIndex === -1) {
+      return res.status(404).json({ error: "Пользователь не найден" });
+    }
+    const user = users[userIndex];
+
+    // Если удаляется супер-администратор, проверим, есть ли другие
+    if (user.isSuperAdmin) {
+      const otherSuperAdmins = users.filter((u, idx) => idx !== userIndex && u.isSuperAdmin);
+      if (otherSuperAdmins.length === 0) {
+        return res.status(400).json({ error: "Нельзя удалить последнего главного администратора" });
+      }
+    }
+
+    users.splice(userIndex, 1);
+    writeUsers(users);
+    res.json({ success: true });
+  } catch (err) {
+    console.error("Error deleting user:", err);
+    res.status(500).json({ error: "Failed to delete user" });
   }
 });
 

@@ -416,10 +416,294 @@ function AnalyticsDashboard({ token, projects }) {
   );
 }
 
+// ---------- Управление пользователями ----------
+
+function UsersSettings({ token, showToast }) {
+  const [users, setUsers] = useState([]);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+  
+  const [modalOpen, setModalOpen] = useState(false);
+  const [editingUser, setEditingUser] = useState(null);
+  const [form, setForm] = useState({ username: "", password: "", isSuperAdmin: false });
+  const [saving, setSaving] = useState(false);
+  const [formError, setFormError] = useState("");
+
+  const fetchUsers = () => {
+    setLoading(true);
+    fetch("/api/admin/users", {
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then((res) => {
+        if (!res.ok) throw new Error("Failed to load users");
+        return res.json();
+      })
+      .then(setUsers)
+      .catch(() => setError("Не удалось загрузить список пользователей"))
+      .finally(() => setLoading(false));
+  };
+
+  useEffect(() => {
+    fetchUsers();
+  }, [token]);
+
+  const handleOpenCreate = () => {
+    setEditingUser(null);
+    setForm({ username: "", password: "", isSuperAdmin: false });
+    setFormError("");
+    setModalOpen(true);
+  };
+
+  const handleOpenEdit = (user) => {
+    setEditingUser(user);
+    setForm({ username: user.username, password: "", isSuperAdmin: !!user.isSuperAdmin });
+    setFormError("");
+    setModalOpen(true);
+  };
+
+  const handleDelete = (username) => {
+    if (!window.confirm(`Вы уверены, что хотите удалить пользователя "${username}"?`)) return;
+    
+    fetch(`/api/admin/users/${username}`, {
+      method: "DELETE",
+      headers: { Authorization: `Bearer ${token}` }
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast("Пользователь успешно удален");
+          fetchUsers();
+        } else {
+          showToast(data.error || "Ошибка при удалении", "error");
+        }
+      })
+      .catch(() => showToast("Ошибка сети", "error"));
+  };
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    setFormError("");
+    
+    if (!form.username.trim()) {
+      setFormError("Имя пользователя обязательно");
+      return;
+    }
+    
+    if (!editingUser && (!form.password || form.password.length < 6)) {
+      setFormError("Пароль должен быть не менее 6 символов");
+      return;
+    }
+    
+    if (editingUser && form.password && form.password.length < 6) {
+      setFormError("Пароль должен быть не менее 6 символов");
+      return;
+    }
+
+    setSaving(true);
+    const url = editingUser 
+      ? `/api/admin/users/${editingUser.username}` 
+      : "/api/admin/users";
+    const method = editingUser ? "PUT" : "POST";
+    const body = editingUser 
+      ? { newUsername: form.username, password: form.password || undefined, isSuperAdmin: form.isSuperAdmin }
+      : { username: form.username, password: form.password, isSuperAdmin: form.isSuperAdmin };
+
+    fetch(url, {
+      method,
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`
+      },
+      body: JSON.stringify(body)
+    })
+      .then(async (res) => {
+        const data = await res.json();
+        if (res.ok && data.success) {
+          showToast(editingUser ? "Пользователь обновлен" : "Пользователь создан");
+          setModalOpen(false);
+          fetchUsers();
+          
+          if (editingUser && editingUser.username === localStorage.getItem("admin-username")) {
+            localStorage.setItem("admin-username", form.username);
+            if (editingUser.isSuperAdmin !== form.isSuperAdmin) {
+              localStorage.setItem("admin-super", form.isSuperAdmin ? "true" : "false");
+              window.location.reload();
+            }
+          }
+        } else {
+          setFormError(data.error || "Ошибка при сохранении");
+        }
+      })
+      .catch(() => setFormError("Ошибка сети"))
+      .finally(() => setSaving(false));
+  };
+
+  if (loading && users.length === 0) return <p className="text-muted text-sm font-sans">Загрузка пользователей…</p>;
+  if (error) return <p className="text-red-400 text-sm font-sans">{error}</p>;
+
+  return (
+    <div className="space-y-6 font-sans">
+      <div className="flex items-center justify-between">
+        <div>
+          <h2 className="text-xl font-bold text-ink mb-1">Управление пользователями</h2>
+          <p className="text-muted text-sm">
+            Список администраторов и редакторов, имеющих доступ к этой CMS.
+          </p>
+        </div>
+        <button
+          onClick={handleOpenCreate}
+          className="flex items-center gap-1.5 px-4 py-2 bg-primary text-white rounded-lg hover:bg-primary-bright font-semibold shadow-glow transition-all text-sm"
+        >
+          <Plus className="w-4 h-4" /> Добавить пользователя
+        </button>
+      </div>
+
+      <div className="bg-surface border border-borderSoft rounded-xl overflow-hidden shadow-md">
+        <table className="w-full text-left border-collapse">
+          <thead>
+            <tr className="border-b border-borderSoft bg-bg/50">
+              <th className="p-4 text-xs font-bold text-muted uppercase tracking-wider">Имя пользователя</th>
+              <th className="p-4 text-xs font-bold text-muted uppercase tracking-wider">Роль</th>
+              <th className="p-4 text-xs font-bold text-muted uppercase tracking-wider text-right">Действия</th>
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-borderSoft">
+            {users.map((u) => (
+              <tr key={u.username} className="hover:bg-bg/20 transition-colors">
+                <td className="p-4 text-sm font-medium text-ink font-mono">{u.username}</td>
+                <td className="p-4 text-sm">
+                  {u.isSuperAdmin ? (
+                    <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-primary/10 text-primary-bright border border-primary/20">
+                      Главный администратор
+                    </span>
+                  ) : (
+                    <span className="px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider rounded-full bg-borderSoft text-muted border border-borderSoft">
+                      Редактор CMS
+                    </span>
+                  )}
+                </td>
+                <td className="p-4 text-right">
+                  <div className="flex gap-2 justify-end">
+                    <button
+                      onClick={() => handleOpenEdit(u)}
+                      className="p-1.5 bg-bg border border-borderSoft text-muted hover:text-primary-bright rounded-lg hover:border-primary/20 transition-colors"
+                      title="Редактировать"
+                    >
+                      <Edit3 className="w-3.5 h-3.5" />
+                    </button>
+                    {u.username !== localStorage.getItem("admin-username") && (
+                      <button
+                        onClick={() => handleDelete(u.username)}
+                        className="p-1.5 bg-bg border border-borderSoft text-muted hover:text-red-400 rounded-lg hover:border-red-400/20 transition-colors"
+                        title="Удалить"
+                      >
+                        <Trash2 className="w-3.5 h-3.5" />
+                      </button>
+                    )}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+
+      {modalOpen && (
+        <div className="fixed inset-0 bg-bg/85 backdrop-blur-sm z-50 flex items-center justify-center p-4 animate-fade-in animate-duration-200">
+          <div className="bg-surface border border-borderSoft p-6 md:p-8 rounded-xl w-full max-w-md shadow-2xl relative">
+            <button
+              onClick={() => setModalOpen(false)}
+              className="absolute top-4 right-4 p-1 text-muted hover:text-ink transition-colors"
+            >
+              <X className="w-5 h-5" />
+            </button>
+
+            <h3 className="text-lg font-bold text-ink mb-2">
+              {editingUser ? "Редактирование пользователя" : "Создание нового пользователя"}
+            </h3>
+            <p className="text-muted text-xs mb-6">
+              {editingUser 
+                ? `Изменение данных для пользователя ${editingUser.username}` 
+                : "Задайте логин и пароль для доступа к панели управления."}
+            </p>
+
+            <form onSubmit={handleSubmit} className="space-y-4">
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1">
+                  Логин
+                </label>
+                <input
+                  type="text"
+                  value={form.username}
+                  onChange={(e) => setForm((prev) => ({ ...prev, username: e.target.value }))}
+                  placeholder="name"
+                  className="w-full px-4 py-2.5 bg-bg border border-borderSoft rounded-lg text-ink focus:outline-none focus:border-primary font-mono text-sm"
+                  required
+                />
+              </div>
+
+              <div>
+                <label className="block text-xs font-bold text-muted uppercase tracking-wider mb-1">
+                  Пароль {editingUser && "(оставьте пустым, чтобы не менять)"}
+                </label>
+                <input
+                  type="password"
+                  value={form.password}
+                  onChange={(e) => setForm((prev) => ({ ...prev, password: e.target.value }))}
+                  placeholder={editingUser ? "••••••••" : "Минимум 6 символов"}
+                  className="w-full px-4 py-2.5 bg-bg border border-borderSoft rounded-lg text-ink focus:outline-none focus:border-primary text-sm"
+                  required={!editingUser}
+                />
+              </div>
+
+              <div className="pt-2">
+                <label className="flex items-center gap-2.5 cursor-pointer select-none">
+                  <input
+                    type="checkbox"
+                    checked={form.isSuperAdmin}
+                    onChange={(e) => setForm((prev) => ({ ...prev, isSuperAdmin: e.target.checked }))}
+                    className="w-4 h-4 rounded border-borderSoft text-primary focus:ring-primary bg-bg"
+                  />
+                  <div>
+                    <span className="text-sm font-semibold text-ink">Главный администратор</span>
+                    <p className="text-[11px] text-muted leading-tight mt-0.5">
+                      Разрешить управление пользователями
+                    </p>
+                  </div>
+                </label>
+              </div>
+
+              {formError && <p className="text-red-400 text-xs mt-2">{formError}</p>}
+
+              <div className="flex gap-3 justify-end pt-4">
+                <button
+                  type="button"
+                  onClick={() => setModalOpen(false)}
+                  className="px-4 py-2.5 bg-bg text-muted border border-borderSoft rounded-lg hover:text-ink text-sm font-semibold transition-colors"
+                >
+                  Отмена
+                </button>
+                <button
+                  type="submit"
+                  disabled={saving}
+                  className="px-5 py-2.5 bg-primary text-white rounded-lg hover:bg-primary-bright text-sm font-semibold shadow-glow transition-all disabled:opacity-50"
+                >
+                  {saving ? "Сохранение…" : editingUser ? "Сохранить изменения" : "Создать пользователя"}
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
 export default function AdminPanel() {
   const [token, setToken] = useState(localStorage.getItem("admin-token") || "");
   const [username, setUsername] = useState(localStorage.getItem("admin-username") || "");
   const [password, setPassword] = useState("");
+  const [isSuperAdmin, setIsSuperAdmin] = useState(localStorage.getItem("admin-super") === "true");
   const [error, setError] = useState("");
   const [projects, setProjects] = useState([]);
   const [editingProject, setEditingProject] = useState(null);
@@ -427,14 +711,18 @@ export default function AdminPanel() {
   const [activeLangTab, setActiveLangTab] = useState("ru");
   const [uploading, setUploading] = useState(false);
   const [toast, setToast] = useState({ message: "", type: "" });
-  const [view, setView] = useState("projects"); // "projects" | "stats"
+  const [view, setView] = useState("projects");
 
   useEffect(() => {
     if (!token) return;
-    // Проверяем, что токен ещё действителен (мог протухнуть после смены пароля)
     fetch("/api/admin/verify", { headers: { Authorization: `Bearer ${token}` } })
       .then((res) => {
         if (!res.ok) throw new Error("Token expired");
+        return res.json();
+      })
+      .then((data) => {
+        setIsSuperAdmin(!!data.isSuperAdmin);
+        localStorage.setItem("admin-super", data.isSuperAdmin ? "true" : "false");
         fetchProjects();
       })
       .catch(() => handleLogout());
@@ -472,7 +760,9 @@ export default function AdminPanel() {
         if (res.ok && data.success) {
           localStorage.setItem("admin-token", data.token);
           localStorage.setItem("admin-username", data.username || username);
+          localStorage.setItem("admin-super", data.isSuperAdmin ? "true" : "false");
           setToken(data.token);
+          setIsSuperAdmin(!!data.isSuperAdmin);
           setPassword("");
         } else {
           setError(data.error || "Неверный логин или пароль");
@@ -486,7 +776,10 @@ export default function AdminPanel() {
 
   const handleLogout = () => {
     localStorage.removeItem("admin-token");
+    localStorage.removeItem("admin-username");
+    localStorage.removeItem("admin-super");
     setToken("");
+    setIsSuperAdmin(false);
     setProjects([]);
   };
 
@@ -915,8 +1208,9 @@ export default function AdminPanel() {
                 { id: "projects", label: "Проекты", icon: LayoutGrid },
                 { id: "stats", label: "Аналитика", icon: BarChart3 },
                 { id: "contacts", label: "Контакты", icon: Phone },
+                isSuperAdmin && { id: "users", label: "Пользователи", icon: Users },
                 { id: "settings", label: "Настройки", icon: Settings }
-              ].map((tab) => {
+              ].filter(Boolean).map((tab) => {
                 const TabIcon = tab.icon;
                 const isActive = view === tab.id;
                 return (
@@ -939,6 +1233,8 @@ export default function AdminPanel() {
               <AnalyticsDashboard token={token} projects={projects} />
             ) : view === "contacts" ? (
               <ContactsSettings token={token} showToast={showToast} />
+            ) : view === "users" && isSuperAdmin ? (
+              <UsersSettings token={token} showToast={showToast} />
             ) : view === "settings" ? (
               <SecuritySettings token={token} showToast={showToast} onTokenChange={setToken} />
             ) : (
